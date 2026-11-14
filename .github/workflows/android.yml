@@ -26,7 +26,9 @@ jobs:
           git -C "$RUNNER_TEMP/flutter" tag 3.50.0
           echo "$RUNNER_TEMP/flutter/bin" >> "$GITHUB_PATH"
       - name: Prepare Android SDK
-        run: sdkmanager "platforms;android-36" "build-tools;36.0.0" "ndk;28.2.13676358"
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-36 build-tools;36.0.0 ndk;28.2.13676358'
       - name: Validate and build
         working-directory: mobile
         run: |
