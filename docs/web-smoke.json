@@ -1,0 +1,10 @@
+{
+  "title": "THE VAULT",
+  "javascript_errors": [],
+  "backend_health": [
+    {
+      "status": 200,
+      "ready": true
+    }
+  ]
+}

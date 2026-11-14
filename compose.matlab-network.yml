@@ -1,0 +1,11 @@
+# Alternative: licensed MATLAB INSIDE Linux Docker, with a network license.
+services:
+  matlab-engine:
+    build:
+      context: .
+      dockerfile: matlab-engine/Dockerfile.engine
+    environment:
+      SCORING_BACKEND: matlab-engine
+      MLM_LICENSE_FILE: ${MLM_LICENSE_FILE:?Set your MATLAB license server}
+    healthcheck:
+      start_period: 120s

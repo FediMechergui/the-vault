@@ -1,0 +1,32 @@
+{
+  "face": {
+    "fixture": "portrait.jpg",
+    "landmark_count": 468,
+    "feature_count": 52,
+    "quality": true,
+    "gesture": "smile",
+    "warm_inference_p50_ms": 15.943299993523397,
+    "warm_inference_p95_ms": 19.77703000011388,
+    "measurement": "Local CPU inference on a repeated public still image; not mobile end-to-end FPS."
+  },
+  "body": {
+    "fixture": "pose.jpg",
+    "landmark_count": 33,
+    "feature_count": 12,
+    "quality": true,
+    "gesture": "arms raised",
+    "warm_inference_p50_ms": 24.383099997066893,
+    "warm_inference_p95_ms": 27.07198000207427,
+    "measurement": "Local CPU inference on a repeated public still image; not mobile end-to-end FPS."
+  },
+  "hand": {
+    "fixture": "pointing_up.jpg",
+    "landmark_count": 21,
+    "feature_count": 3,
+    "quality": true,
+    "gesture": "pointing",
+    "warm_inference_p50_ms": 16.859899995324668,
+    "warm_inference_p95_ms": 23.069170000962906,
+    "measurement": "Local CPU inference on a repeated public still image; not mobile end-to-end FPS."
+  }
+}

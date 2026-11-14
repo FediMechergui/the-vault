@@ -1,0 +1,11 @@
+# Requires the Linux package produced by matlab-engine/build_engine.m.
+services:
+  matlab-engine:
+    build:
+      context: .
+      dockerfile: matlab-engine/Dockerfile.runtime
+    environment:
+      SCORING_BACKEND: matlab-runtime
+      AGREE_TO_MATLAB_RUNTIME_LICENSE: "yes"
+    healthcheck:
+      start_period: 120s

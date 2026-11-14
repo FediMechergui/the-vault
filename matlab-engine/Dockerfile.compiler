@@ -1,0 +1,10 @@
+# Installation is license-free; executing MATLAB/Compiler SDK requires activation.
+FROM mathworks/matlab:r2025b
+USER root
+RUN wget -q https://www.mathworks.com/mpm/glnxa64/mpm -O /usr/local/bin/mpm \
+    && chmod +x /usr/local/bin/mpm \
+    && /usr/local/bin/mpm install --release=R2025b --destination=/opt/matlab/R2025b \
+       --products MATLAB_Compiler MATLAB_Compiler_SDK Signal_Processing_Toolbox Statistics_and_Machine_Learning_Toolbox \
+    && rm -f /tmp/mathworks_root.log
+WORKDIR /workspace
+USER matlab

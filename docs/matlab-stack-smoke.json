@@ -1,0 +1,35 @@
+{
+  "health": {
+    "ready": true,
+    "services": {
+      "vision": {
+        "ready": true,
+        "detail": "MediaPipe Tasks CPU"
+      },
+      "scoring": {
+        "ready": true,
+        "engine": "matlab-engine",
+        "matlab": true,
+        "release": "2026b",
+        "license_source": "current-user"
+      },
+      "database": {
+        "ready": true
+      },
+      "sessions": {
+        "ready": true,
+        "backend": "memory"
+      },
+      "media": {
+        "ready": true,
+        "backend": "local"
+      }
+    }
+  },
+  "blank_frame": {
+    "correctly_rejected": true,
+    "first_frame_round_trip_ms": 192.96449999819743,
+    "server_ms": 191.0
+  },
+  "credential_revoked_after_deletion": true
+}

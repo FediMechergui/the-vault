@@ -1,0 +1,19 @@
+{
+    "name": "THE VAULT",
+    "short_name": "THE VAULT",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#10120F",
+    "theme_color": "#10120F",
+    "description": "Maximum security. Minimum secret. A gesture-powered vault.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        }
+    ]
+}

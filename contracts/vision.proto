@@ -1,0 +1,18 @@
+syntax = "proto3";
+package vault;
+
+service Vision {
+  rpc Extract (Frame) returns (Landmarks);
+  rpc Health (Empty) returns (HealthStatus);
+  rpc Release (Session) returns (Empty);
+}
+message Empty {}
+message Session { string session_id = 1; }
+message Frame {
+  string session_id = 1;
+  string layer = 2;
+  bytes jpeg = 3;
+  int64 timestamp_ms = 4;
+}
+message Landmarks { string json = 1; }
+message HealthStatus { bool ready = 1; string detail = 2; }

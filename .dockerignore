@@ -1,0 +1,15 @@
+.git
+.tools
+.venv
+.local
+**/__pycache__
+**/.dart_tool
+**/build
+!matlab-engine/build
+.env
+mobile
+docs
+tests
+*.pdf
+specification-extracted.txt
+infra/certs

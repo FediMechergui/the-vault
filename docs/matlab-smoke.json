@@ -1,0 +1,36 @@
+{
+  "engine": "matlab-engine",
+  "release": "2026b",
+  "license_source": "current-user",
+  "input": "synthetic test signals; not a biometric study",
+  "layers": {
+    "face": {
+      "cases": 3,
+      "maximum_absolute_difference": 3.469446951953614e-18,
+      "decision_ms": [
+        248.38820000150008,
+        185.0639999975101,
+        33.87989999828278
+      ]
+    },
+    "body": {
+      "cases": 3,
+      "maximum_absolute_difference": 1.1102230246251565e-16,
+      "decision_ms": [
+        22.386399999959394,
+        32.308800000464544,
+        12.306500000704546
+      ]
+    },
+    "hand": {
+      "cases": 3,
+      "maximum_absolute_difference": 8.881784197001252e-16,
+      "decision_ms": [
+        18.7143000002834,
+        13.599499998235842,
+        17.112099998485064
+      ]
+    }
+  },
+  "matlab_unit_tests_passed": 3
+}

@@ -1,0 +1,1093 @@
+
+=== PAGE 1 OF 18 ===
+THE VAULTE
+Cahier des charges fonctionnel et technique
+Authentification biométrique multi-couches : visage, corps, main.
+Type de projet : application mobile + traitement d'image temps réel
+Stack : Flutter · FastAPI · Python/MediaPipe · MATLAB Runtime · Docker
+Version : 1.0  —  Date : 13 novembre 2026
+Statut : document de référence pour la conception et la réalisation
+« Trois biométries pour protéger un mème. Vos vraies données, elles, sont déjà ailleurs. »
+
+
+=== PAGE 2 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 2
+Document de projet — diffusion interne
+Sommaire
+4
+1. Présentation du projet
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 4
+1.1 Le concept en une phrase
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 4
+1.2 Le message satirique
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 4
+1.3 Objectifs
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 5
+1.4 Périmètre
+5
+2. Acteurs et cas d'utilisation
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 5
+2.1 Acteurs
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 5
+2.2 Cas d'utilisation principaux
+6
+3. Spécifications fonctionnelles
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 6
+3.1 Parcours utilisateur
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 6
+3.2 Couche 1 — Visage : expression et topologie
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 6
+3.3 Couche 2 — Corps : la danse secrète
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 7
+3.4 Couche 3 — Main : la signature aérienne
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 7
+3.5 Séquences configurables
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 7
+3.6 Révélation : le coffre et l'écran de transparence
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 8
+3.7 Exigences fonctionnelles détaillées
+8
+4. Exigences non fonctionnelles
+9
+5. Architecture technique
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 9
+5.1 Vue d'ensemble
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 10
+5.2 Répartition des rôles
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 10
+5.3 Pourquoi Python ET MATLAB ?
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 10
+5.4 Le conteneur MATLAB : choix et licence
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 10
+5.5 Pipeline de traitement temps réel
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 11
+5.6 Diagramme de séquence d'une connexion
+12
+6. Algorithmes de reconnaissance
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 12
+6.1 Prétraitement commun
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 12
+6.2 Dynamic Time Warping (DTW) expliqué simplement
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 12
+6.3 Fusion des scores
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 12
+6.4 Seuils personnalisés
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 12
+6.5 Mesures de qualité
+13
+7. Modèle de données et API
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 13
+7.1 Modèle de données
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 13
+7.2 Points d'accès de l'API
+14
+8. Interfaces utilisateur
+14
+9. Sécurité et vie privée
+
+
+=== PAGE 3 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 3
+Document de projet — diffusion interne
+15
+10. Environnement de développement et Docker
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 15
+10.1 Prérequis du poste
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 15
+10.2 Arborescence du dépôt
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 15
+10.3 Image Python (vision-py)
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 15
+10.4 Image MATLAB (matlab-engine, option A)
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 16
+10.5 docker-compose.yml
+ .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 16
+10.6 Démarrage
+16
+11. Stratégie de tests
+16
+12. Planning prévisionnel
+17
+13. Risques et parades
+17
+14. Livrables et critères d'acceptation
+18
+15. Glossaire
+
+
+=== PAGE 4 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 4
+Document de projet — diffusion interne
+1. Présentation du projet
+1.1 Le concept en une phrase
+The Vaulte est une application mobile de connexion qui exige jusqu'à trois preuves
+biométriques comportementales — une expression du visage, un mouvement du corps et une
+signature dessinée en l'air avec la main — pour ouvrir un « coffre-fort numérique ». Une fois
+toutes les épreuves réussies, le coffre s'ouvre... et ne contient qu'une seule chose : une image
+de mème.
+1. Visage
+expression + topologie
+2. Corps
+danse / mouvement
+3. Main
+signature aérienne
+Coffre ouvert
+...un mème.
+Trois couches biométriques, une sécurité « maximale »... pour protéger une image publique.
+Figure 1 — Le parcours de connexion de The Vaulte et sa chute satirique.
+1.2 Le message satirique
+Le projet est une satire de notre rapport à la vie privée. Beaucoup d'utilisateurs multiplient les
+mots de passe, les codes PIN et les verrous biométriques pour protéger des informations que les
+grandes plateformes collectent, croisent et partagent déjà avec des annonceurs et des courtiers
+en données. The Vaulte pousse cette logique à l'absurde : un rituel de sécurité spectaculaire,
+quasiment cérémoniel, pour protéger un contenu sans aucune valeur secrète.
+Le ton est humoristique mais le travail technique est sérieux : chaque couche de reconnaissance
+doit réellement fonctionner. C'est ce contraste — une ingénierie rigoureuse au service d'un coffre
+vide — qui porte le message.
+Note satirique — la chute doit être assumée et soignée. L'écran final affiche le mème avec
+une phrase courte du type « Félicitations, votre secret est en sécurité. Vos vraies données,
+elles, ont été partagées avec 347 partenaires. » Le chiffre est fictif et présenté comme tel
+dans les mentions de l'application.
+1.3 Objectifs
+Objectif
+Description
+Indicateur de réussite
+O1 — Technique
+Démontrer une reconnaissance de motifs temps
+réel sur trois modalités (visage, corps, main).
+Taux d'erreur égal (EER) < 10 % par
+couche sur le jeu de test interne.
+O2 — Architecture
+Faire coopérer un conteneur Python et un
+conteneur MATLAB derrière une API unique.
+Pipeline complet fonctionnel via
+docker compose up.
+O3 — Expérience
+Rendre le parcours ludique, fluide et lisible sur
+mobile.
+Connexion complète (3 couches) en
+moins de 30 s.
+O4 — Message
+Faire passer la critique de manière claire et drôle.
+Retours qualitatifs positifs lors de la
+démonstration.
+
+
+=== PAGE 5 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 5
+Document de projet — diffusion interne
+1.4 Périmètre
+Inclus dans la version 1.0
+• Application mobile Android (iOS en option, même base de code Flutter).
+• Enrôlement : enregistrement des gabarits des trois couches.
+• Authentification : séquence configurable de 1 à 3 couches, dans l'ordre choisi par l'utilisateur.
+• Serveur exécuté sur le poste de développement via Docker Compose (conteneurs Python et
+MATLAB).
+• Écran « coffre » affichant le mème, plus un écran de transparence satirique.
+• Mode démonstration pour les présentations (affichage des landmarks et des scores en direct).
+Hors périmètre
+• Déploiement cloud de production et haute disponibilité.
+• Stockage de données réellement sensibles : le coffre ne contient volontairement qu'un mème.
+• Certification biométrique (ISO/IEC 30107 anti-usurpation) — seule une détection de vivacité
+basique est prévue.
+2. Acteurs et cas d'utilisation
+2.1 Acteurs
+Acteur
+Rôle
+Utilisateur
+Crée son compte, enregistre ses gabarits, se connecte pour ouvrir son coffre.
+Démonstrateur
+Présente le projet ; active le mode démo (landmarks, scores et latences visibles).
+Administrateur
+Gère la configuration serveur : seuils, mème affiché, purge des données, journaux.
+Système
+Conteneurs Python et MATLAB qui analysent les trames et rendent un verdict.
+2.2 Cas d'utilisation principaux
+ID
+Cas d'utilisation
+Acteur
+Description résumée
+UC1
+Créer un compte
+Utilisateur
+Pseudonyme + consentement explicite au traitement des
+landmarks.
+UC2
+Enrôler le visage
+Utilisateur
+Enregistrer la topologie faciale et 2 expressions-clés.
+UC3
+Enrôler le corps
+Utilisateur
+Enregistrer une courte chorégraphie de 3 à 6 s (×3
+répétitions).
+UC4
+Enrôler la main
+Utilisateur
+Dessiner sa signature aérienne (×5 répétitions).
+UC5
+Configurer la séquence
+Utilisateur
+Choisir 1, 2 ou 3 couches et leur ordre.
+UC6
+Se connecter
+Utilisateur
+Réaliser les défis dans l'ordre ; recevoir un verdict par
+étape.
+UC7
+Ouvrir le coffre
+Utilisateur
+Afficher le mème et l'écran de transparence.
+UC8
+Mode démo
+Démonstrateur
+Superposer landmarks, scores et latences en direct.
+UC9
+Supprimer mes
+données
+Utilisateur
+Effacement immédiat et total des gabarits et journaux.
+UC10
+Administrer
+Administrateur
+Seuils, mème, purge, consultation des journaux.
+
+
+=== PAGE 6 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 6
+Document de projet — diffusion interne
+3. Spécifications fonctionnelles
+3.1 Parcours utilisateur
+Le parcours se déroule en quatre temps : inscription, enrôlement, connexion et révélation.
+Chaque défi est présenté par un écran d'instruction animé, un compte à rebours de 3 secondes,
+puis une capture guidée avec retour visuel (silhouette, cadre, jauge de confiance).
+INIT
+ok
+DÉFI_1
+ok
+DÉFI_2
+ok
+DÉFI_3
+ok
+SUCCÈS
+ÉCHEC / VERROU
+Figure 2 — Machine d'états d'une connexion à trois couches. Un échec à n'importe quelle étape mène à l'état ÉCHEC
+; trois échecs consécutifs verrouillent le compte 5 minutes.
+3.2 Couche 1 — Visage : expression et topologie
+Cette couche combine deux vérifications complémentaires :
+• Topologie faciale (qui êtes-vous ?) : la géométrie du visage est décrite à partir des 468
+points 3D fournis par MediaPipe Face Mesh. On calcule un vecteur de distances et de ratios
+invariants (écart des yeux rapporté à la largeur du visage, longueur du nez, hauteur du front,
+etc.), comparé au gabarit enregistré.
+• Expression secrète (que savez-vous faire ?) : l'utilisateur choisit une petite séquence de
+2 expressions (ex. : clin d'œil gauche puis sourire asymétrique). Les 52 coefficients
+d'expression (« blendshapes ») sont suivis dans le temps et comparés à la séquence
+enregistrée.
+• Vivacité : un défi aléatoire (« clignez deux fois », « tournez la tête à droite ») empêche
+l'usage d'une photo.
+Paramètre
+Valeur cible
+Durée de capture
+4 s maximum
+Caractéristiques
+~60 ratios géométriques + séries temporelles de 52 blendshapes
+Méthode de comparaison
+Distance cosinus (topologie) + DTW multivariée (expressions)
+Seuil d'acceptation
+Score fusionné ≥ 0,80 (ajustable par l'administrateur)
+3.3 Couche 2 — Corps : la danse secrète
+L'utilisateur pose le téléphone (support ou appui) et exécute une courte chorégraphie
+personnelle de 3 à 6 secondes : un enchaînement de poses et de gestes, comme une poignée de
+main secrète avec tout le corps. MediaPipe Pose fournit 33 points articulaires par image.
+• Normalisation : centrage sur le bassin, mise à l'échelle par la longueur du torse — la
+distance à la caméra et la taille de la personne n'influencent donc pas le résultat.
+• Descripteurs : angles articulaires (coudes, épaules, hanches, genoux) et vitesses, plus
+robustes que les coordonnées brutes.
+
+
+=== PAGE 7 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 7
+Document de projet — diffusion interne
+• Comparaison : DTW (Dynamic Time Warping) qui tolère une danse un peu plus lente ou plus
+rapide que l'enregistrement.
+• Guidage : une silhouette fantôme indique où se placer ; un indicateur signale « corps entier
+visible ».
+Paramètre
+Valeur cible
+Durée
+3 à 6 s ; 3 répétitions à l'enrôlement
+Caractéristiques
+12 angles articulaires + vitesses angulaires, 15 ips
+Méthode
+DTW multivariée avec fenêtre de Sakoe-Chiba (10 %)
+Seuil
+Distance DTW normalisée ≤ seuil appris à l'enrôlement (moyenne + 2
+écarts-types)
+3.4 Couche 3 — Main : la signature aérienne
+L'utilisateur trace un motif dans l'air avec son index (lettre, symbole, gribouillis personnel).
+MediaPipe Hands suit 21 points de la main ; on garde principalement la pointe de l'index (point
+n° 8). Le geste « pincer » (pouce + index) démarre et termine le tracé.
+La force de cette couche est qu'elle vérifie à la fois la forme du tracé et la manière de le tracer
+: vitesse, accélérations, pauses et rythme. Deux personnes qui dessinent la même étoile ne le
+font jamais au même rythme — c'est la même idée que la signature manuscrite dynamique.
+• Forme : tracé rééchantillonné à 64 points, aligné par analyse de Procrustes (translation,
+échelle, rotation).
+• Dynamique : profils de vitesse et d'accélération comparés par DTW.
+• Score : combinaison pondérée forme (40 %) + dynamique (60 %).
+3.5 Séquences configurables
+L'utilisateur choisit lui-même le niveau de « paranoïa » de son coffre. Plus il y a de couches, plus
+le rituel est long — et plus l'ironie est forte.
+Niveau
+Couches
+Exemple d'ordre
+Libellé dans l'app
+1
+Une seule
+Main
+« Prudent »
+2
+Deux
+Visage → Main
+« Méfiant »
+3
+Trois
+Visage → Corps → Main
+« Lanceur d'alerte »
+3+
+Trois + défi aléatoire
+Ordre tiré au sort à chaque connexion
+« Complotiste certifié »
+3.6 Révélation : le coffre et l'écran de transparence
+• Animation d'ouverture : porte de coffre qui tourne, verrous qui sautent, son de
+déverrouillage.
+• Contenu : une image de mème unique (création originale de l'équipe ou image libre de
+droits), stockée sur le serveur dans MinIO et modifiable par l'administrateur.
+• Écran de transparence (satirique) : un faux tableau de bord « Vos données déjà partagées
+» qui liste des catégories plausibles (localisation, contacts, habitudes d'achat) avec des
+compteurs fictifs, clairement indiqués comme illustratifs, et un lien vers une page
+pédagogique sur les paramètres de confidentialité réels.
+
+
+=== PAGE 8 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 8
+Document de projet — diffusion interne
+Note satirique — l'écran de transparence ne doit jamais présenter de chiffres inventés
+comme des faits réels sur une entreprise nommée. Il reste générique et signalé comme fictif ;
+la critique vise un phénomène, pas une marque.
+3.7 Exigences fonctionnelles détaillées
+ID
+Exigence
+Priorité
+EF-01
+Créer un compte avec un pseudonyme ; aucune adresse e-mail obligatoire.
+Haute
+EF-02
+Recueillir un consentement explicite avant toute capture caméra.
+Haute
+EF-03
+Enrôler chaque couche avec un nombre minimal de répétitions (2 / 3 / 5).
+Haute
+EF-04
+Refuser un enrôlement trop variable (écart intra-utilisateur trop élevé) et demander
+de recommencer.
+Moyenne
+EF-05
+Configurer 1 à 3 couches et leur ordre.
+Haute
+EF-06
+Diffuser les trames vers le serveur et afficher un retour en moins de 300 ms.
+Haute
+EF-07
+Rendre un verdict par couche (succès / échec / qualité insuffisante).
+Haute
+EF-08
+Verrouiller le compte 5 minutes après 3 échecs consécutifs.
+Moyenne
+EF-09
+Délivrer un jeton JWT et l'URL du mème après succès complet.
+Haute
+EF-10
+Mode démo : superposition des landmarks, scores et latences.
+Moyenne
+EF-11
+Supprimer toutes les données de l'utilisateur en un clic.
+Haute
+EF-12
+Administration : seuils, mème, purge, journaux.
+Basse
+4. Exigences non fonctionnelles
+Catégorie
+Exigence
+Cible
+Performance
+Latence aller-retour par trame (mobile → serveur → mobile) sur réseau
+local.
+< 300 ms
+Performance
+Débit de traitement côté serveur.
+≥ 15 ips par session
+Performance
+Temps de décision MATLAB après fin de capture.
+< 1 s
+Fiabilité
+Taux d'erreur égal (EER) par couche.
+< 10 %
+Fiabilité
+Taux de fausse acceptation (FAR) avec 3 couches.
+< 1 %
+Ergonomie
+Connexion complète à 3 couches.
+< 30 s
+Ergonomie
+Instructions compréhensibles sans texte (pictogrammes + animation).
+Test utilisateur
+Compatibilité
+Android 10+ (API 29), caméra frontale 720p.
+—
+Portabilité
+Démarrage complet du serveur par une seule commande.
+docker compose up
+Confidentialité
+Aucune image brute stockée ; seuls les landmarks/gabarits sont
+conservés.
+Obligatoire
+Maintenabilité
+Code documenté, tests unitaires sur les fonctions de comparaison.
+Couverture ≥ 60 %
+
+
+=== PAGE 9 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 9
+Document de projet — diffusion interne
+5. Architecture technique
+5.1 Vue d'ensemble
+L'architecture suit une logique simple : le mobile capture, le conteneur Python voit (il extrait
+les points-clés), le conteneur MATLAB juge (il filtre les signaux, compare aux gabarits et
+décide). Une passerelle FastAPI orchestre l'ensemble. Tout tourne sur le poste de développement
+grâce à Docker Compose ; le téléphone s'y connecte via le réseau Wi-Fi local.
+Poste de développement (Docker Compose) — réseau « vaulte-net »
+Application mobile
+Flutter (Android / iOS)
+Caméra + UI des défis
+WebSocket / HTTPS
+API Gateway
+FastAPI (Python)
+Auth, sessions, JWT
+Orchestration des couches
+vision-py
+Python + MediaPipe/OpenCV
+Face Mesh, Pose, Hands
+Extraction de landmarks
+matlab-engine
+MATLAB Runtime (conteneur)
+Filtrage, DTW, Procrustes
+Scores + fusion
+Redis
+file de trames
+sessions
+PostgreSQL
+utilisateurs, gabarits
+journaux
+MinIO
+mème + médias
+trames JPEG
+verdict / mème
+gRPC
+REST
+landmarks
+Figure 3 — Architecture des composants. Les flèches indiquent le sens principal des données.
+
+
+=== PAGE 10 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 10
+Document de projet — diffusion interne
+5.2 Répartition des rôles
+Composant
+Technologie
+Responsabilités
+Application
+mobile
+Flutter 3, plugin camera,
+web_socket_channel
+Capture caméra, compression JPEG, envoi des trames, UI
+des défis, animations, affichage du mème.
+API Gateway
+Python 3.11, FastAPI, Uvicorn
+Comptes, sessions, JWT, machine d'états de connexion,
+routage vers les moteurs, WebSocket.
+vision-py
+Python 3.11, MediaPipe,
+OpenCV, NumPy, gRPC
+Décodage des trames, détection visage/corps/main,
+extraction des landmarks et blendshapes.
+matlab-engine
+MATLAB R2025b compilé,
+MATLAB Runtime, MATLAB
+Production Server ou wrapper
+REST
+Lissage (Savitzky-Golay, Kalman), DTW, Procrustes, calcul
+et fusion des scores, apprentissage des seuils.
+Redis
+Redis 7
+Tampon de trames par session, état temporaire, limitation
+du débit.
+PostgreSQL
+PostgreSQL 16
+Utilisateurs, gabarits (vecteurs chiffrés), configuration,
+journaux.
+MinIO
+MinIO (compatible S3)
+Stockage du mème et des ressources graphiques.
+5.3 Pourquoi Python ET MATLAB ?
+Python est imbattable pour la vision par ordinateur temps réel grâce à MediaPipe et OpenCV :
+modèles pré-entraînés, rapides, gratuits. MATLAB excelle dans le traitement du signal et
+l'analyse numérique : filtres, DTW (dtw), Procrustes (procrustes), statistiques et visualisation
+pour la mise au point. Les séries de landmarks étant des signaux temporels, MATLAB est
+naturellement à sa place pour la phase d'appariement. Cette séparation rend aussi le projet plus
+facile à expliquer : « Python voit, MATLAB juge ».
+5.4 Le conteneur MATLAB : choix et licence
+Deux options existent ; le choix dépend de la licence disponible.
+Option
+Image Docker
+Avantages
+Contraintes
+A — Recommandée
+: code compilé
+containers/matlab-runtim
+e (MATLAB Runtime,
+gratuit)
+Pas de licence à l'exécution ;
+image plus légère ;
+démarrage rapide.
+Nécessite MATLAB Compiler
+(ou Compiler SDK) une fois,
+sur le poste de
+développement, pour
+compiler les fonctions.
+B — Développement
+interactif
+mathworks/matlab
+(image officielle)
+Modification du code à chaud
+; accès navigateur à MATLAB
+pour le débogage.
+Licence MATLAB valide
+requise (individuelle,
+campus ou serveur de
+licences réseau).
+Recommandation : développer et régler les algorithmes avec l'option B, puis compiler les
+fonctions score_face, score_body, score_hand et fuse_scores pour les exécuter avec l'option A
+lors des démonstrations. Les deux images s'exposent sur le même port, l'API Gateway ne voit
+aucune différence.
+5.5 Pipeline de traitement temps réel
+
+
+=== PAGE 11 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 11
+Document de projet — diffusion interne
+Capture
+15 ips, 480p
+Pré-traitement
+redim., normalisation
+Landmarks
+468 / 33 / 21 pts
+Filtrage
+Savitzky-Golay
+Kalman
+Appariement
+DTW + Procrustes
+Décision
+fusion des scores
+Mobile
+Conteneur Python
+Conteneur MATLAB
+Figure 4 — Pipeline d'une trame, de la caméra à la décision.
+• Capture (mobile) : caméra frontale à 15 ips, redimensionnée en 640×480, compressée en
+JPEG (qualité 70) — environ 25 à 40 Ko par trame.
+• Transport : WebSocket binaire ; chaque message contient l'identifiant de session, le numéro
+de trame et l'horodatage.
+• Extraction (Python) : le modèle MediaPipe adapté à la couche active est appelé ; seuls les
+points-clés (JSON compact) ressortent. L'image est détruite immédiatement après.
+• Retour en direct : la passerelle renvoie au mobile un indicateur de qualité (visage détecté,
+corps entier visible, main suivie) pour guider l'utilisateur.
+• Décision (MATLAB) : à la fin du défi, la série complète est envoyée au moteur MATLAB qui
+renvoie un score entre 0 et 1 et un indicateur de confiance.
+5.6 Diagramme de séquence d'une connexion
+Mobile
+Gateway
+vision-py
+matlab
+PostgreSQL
+POST /auth/start (user_id)
+lire séquence + gabarits
+session_id + défi n°1
+WS : flux de trames
+trames
+landmarks (JSON)
+landmarks + gabarit
+score, confiance
+défi suivant / échec
+journal de tentative
+JWT + URL du mème
+Figure 5 — Échanges entre composants lors d'une connexion (une couche représentée, répétée pour chaque défi).
+
+
+=== PAGE 12 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 12
+Document de projet — diffusion interne
+6. Algorithmes de reconnaissance
+6.1 Prétraitement commun
+• Normalisation spatiale : translation vers un point de référence (bout du nez, bassin,
+poignet), mise à l'échelle par une distance de référence (distance inter-oculaire, longueur du
+torse, taille de la paume).
+• Lissage temporel : filtre de Savitzky-Golay (fenêtre 7, ordre 2) pour supprimer la gigue des
+landmarks ; filtre de Kalman pour combler les trames manquantes de courte durée.
+• Rééchantillonnage : interpolation à une fréquence fixe pour que toutes les séries soient
+comparables.
+6.2 Dynamic Time Warping (DTW) expliqué simplement
+Imaginez deux personnes qui chantent la même chanson, l'une un peu plus vite. Comparer les
+deux image par image échouerait. La DTW « étire » et « compresse » le temps pour aligner au
+mieux les deux séquences, puis mesure la distance restante. Une petite distance signifie « même
+mouvement », même si le rythme global varie un peu. C'est l'outil central des couches corps et
+main, et de la partie expressions de la couche visage.
+% MATLAB — exemple simplifié de score pour la couche main
+function s = score_hand(trace, template, thr)
+    t  = sgolayfilt(trace, 2, 7);              % lissage
+    [~, Z] = procrustes(template.shape, resample64(t));
+    dShape = norm(Z - template.shape, 'fro');  % distance de forme
+    v  = vecnorm(diff(t), 2, 2);               % profil de vitesse
+    dDyn = dtw(v, template.velocity);          % distance dynamique
+    d  = 0.4*dShape/thr.shape + 0.6*dDyn/thr.dyn;
+    s  = max(0, 1 - d/2);                      % score dans [0,1]
+end
+6.3 Fusion des scores
+Lorsque plusieurs couches sont actives, chacune doit d'abord dépasser son propre seuil (règle
+ET). Un score global, moyenne pondérée des scores individuels, est ensuite calculé et journalisé ;
+il sert à ajuster les seuils et à alimenter le mode démo.
+6.4 Seuils personnalisés
+Lors de l'enrôlement, les répétitions de l'utilisateur sont comparées entre elles. On obtient ainsi
+sa propre variabilité naturelle (moyenne μ et écart-type σ des distances). Le seuil d'acceptation
+est fixé à μ + 2σ, borné par des valeurs minimale et maximale pour éviter qu'un utilisateur très
+irrégulier ne crée un gabarit trop permissif.
+6.5 Mesures de qualité
+Métrique
+Définition simple
+Usage
+FAR
+Taux de fausse acceptation : un imposteur passe.
+Sécurité
+FRR
+Taux de faux rejet : le vrai utilisateur est refusé.
+Confort
+EER
+Point où FAR = FRR ; plus il est bas, meilleur est le système.
+Comparaison globale
+Latence
+Temps entre l'envoi de la trame et la réception du retour.
+Fluidité
+
+
+=== PAGE 13 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 13
+Document de projet — diffusion interne
+7. Modèle de données et API
+7.1 Modèle de données
+Table
+Champs principaux
+Remarques
+users
+id (UUID), pseudo, created_at, sequence_config (JSON),
+locked_until
+Aucune donnée d'identité
+réelle.
+templates
+id, user_id, layer (face|body|hand), features (BYTEA chiffré),
+thr_mu, thr_sigma, version
+Chiffrement AES-256-GCM ; clé
+hors base.
+auth_attempts
+id, user_id, started_at, layers (JSON), scores (JSON), result,
+latency_ms
+Purge automatique après 30
+jours.
+vault_items
+id, object_key (MinIO), caption, active
+Le fameux mème.
+settings
+key, value
+Seuils globaux, poids de fusion,
+mode démo.
+7.2 Points d'accès de l'API
+Méthode
+Route
+Rôle
+POST
+/api/v1/users
+Créer un compte (pseudo + consentement).
+PUT
+/api/v1/users/{id}/sequence
+Définir les couches et leur ordre.
+POST
+/api/v1/enroll/{layer}/start
+Ouvrir une session d'enrôlement pour une couche.
+WS
+/ws/stream/{session_id}
+Flux de trames (montant) et retours qualité
+(descendant).
+POST
+/api/v1/enroll/{layer}/commit
+Valider les répétitions et calculer le gabarit et le seuil.
+POST
+/api/v1/auth/start
+Démarrer une connexion ; renvoie le premier défi.
+POST
+/api/v1/auth/{session_id}/next
+Clore un défi, obtenir le verdict et le défi suivant.
+GET
+/api/v1/vault
+Avec JWT valide : URL signée du mème + données de
+l'écran de transparence.
+DELETE
+/api/v1/users/{id}
+Supprimer toutes les données de l'utilisateur.
+GET
+/api/v1/health
+État des conteneurs (Python, MATLAB, bases).
+Interfaces internes
+• Gateway → vision-py : gRPC, méthode Extract(layer, frame_bytes) → Landmarks.
+• Gateway → matlab-engine : REST JSON, POST /score/{layer} avec la série de landmarks et
+le gabarit ; réponse {score, confidence, details}.
+
+
+=== PAGE 14 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 14
+Document de projet — diffusion interne
+8. Interfaces utilisateur
+Écran
+Contenu
+Notes de design
+Accueil
+Logo porte de coffre, bouton « Ouvrir mon coffre ».
+Ambiance sombre, « haute sécurité »
+exagérée.
+Consentement
+Explication claire : ce qui est capturé, ce qui est
+stocké, comment supprimer.
+Ton sérieux ici : c'est réel.
+Choix du niveau
+Les 4 niveaux de paranoïa avec leurs libellés
+humoristiques.
+Cartes illustrées.
+Enrôlement
+Instruction animée, compte à rebours, capture, jauge
+de cohérence.
+Pictogrammes, peu de texte.
+Défi visage
+Ovale de cadrage, consigne d'expression, détection
+de clignement.
+Retour vert/rouge immédiat.
+Défi corps
+Silhouette fantôme, indicateur « corps entier visible
+».
+Téléphone posé, minuterie.
+Défi main
+Traînée lumineuse qui suit l'index, geste « pincer »
+pour commencer/finir.
+Effet néon.
+Coffre
+Animation d'ouverture puis le mème en plein écran.
+Moment comique : rythme et son.
+Transparence
+Faux tableau « Vos données déjà partagées », lien
+pédagogique.
+Mention « données fictives ».
+Mode démo
+Landmarks superposés, scores, latences, FPS.
+Activable par appui long sur le logo.
+9. Sécurité et vie privée
+L'ironie du projet ne dispense pas de bonnes pratiques — au contraire, The Vaulte doit être
+irréprochable sur ce qu'il critique.
+• Minimisation : aucune image ni vidéo n'est stockée ; les trames sont détruites après
+extraction.
+• Gabarits, pas de photos : seuls des vecteurs de caractéristiques chiffrés (AES-256-GCM)
+sont conservés.
+• Transport : TLS sur le réseau local (certificat auto-signé de développement) ; jetons JWT de
+15 minutes.
+• Isolation : les conteneurs vision-py et matlab-engine ne sont pas exposés hors du réseau
+Docker.
+• Droit à l'effacement : suppression totale en un clic (UC9), effective immédiatement.
+• Conformité : les données biométriques sont des données sensibles au sens du RGPD et de la
+loi tunisienne n° 2004-63 ; consentement explicite, finalité limitée à la démonstration, durée
+de conservation courte.
+• Anti-usurpation de base : défi de vivacité aléatoire et vérification de la cohérence 3D des
+landmarks.
+Note satirique — le contraste final est volontaire : l'application traite vos données mieux
+que la plupart des services « gratuits » que vous utilisez déjà — tout ça pour protéger un
+mème.
+
+
+=== PAGE 15 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 15
+Document de projet — diffusion interne
+10. Environnement de développement et Docker
+10.1 Prérequis du poste
+• Docker Engine 24+ et Docker Compose v2 ; 16 Go de RAM recommandés (MATLAB Runtime ≈
+4 Go).
+• Processeur 4 cœurs minimum ; GPU optionnel (MediaPipe tourne bien sur CPU).
+• Flutter SDK 3.x et Android Studio pour l'application.
+• MATLAB R2025b avec Signal Processing Toolbox, Statistics and Machine Learning Toolbox et
+MATLAB Compiler (option A).
+• Téléphone et poste sur le même réseau Wi-Fi ; port 8443 ouvert sur le pare-feu du poste.
+10.2 Arborescence du dépôt
+the-vaulte/
+├── mobile/                 # Application Flutter
+├── gateway/                # FastAPI : comptes, sessions, orchestration
+│   ├── Dockerfile
+│   └── app/
+├── vision-py/              # MediaPipe + OpenCV + serveur gRPC
+│   ├── Dockerfile
+│   └── src/
+├── matlab-engine/          # Fonctions .m + wrapper REST
+│   ├── Dockerfile
+│   ├── src/  (score_face.m, score_body.m, score_hand.m, fuse_scores.m)
+│   └── build/              # Artefacts compilés (option A)
+├── infra/  (certs/, init.sql)
+├── docker-compose.yml
+└── .env
+10.3 Image Python (vision-py)
+FROM python:3.11-slim
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libgl1 libglib2.0-0 && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt   # mediapipe, opencv-python-headless,
+                                                     # numpy, grpcio
+COPY src/ ./src
+EXPOSE 50051
+CMD ["python", "-m", "src.server"]
+10.4 Image MATLAB (matlab-engine, option A)
+FROM containers/matlab-runtime:r2025b
+WORKDIR /opt/vaulte
+COPY build/ ./                 # application compilée avec MATLAB Compiler SDK
+EXPOSE 9910
+ENV LD_LIBRARY_PATH=/opt/matlabruntime/R2025b/runtime/glnxa64:$LD_LIBRARY_PATH
+CMD ["./run_vaulte_engine.sh", "/opt/matlabruntime/R2025b"]
+Pour l'option B, on remplace l'image de base par mathworks/matlab:r2025b et on fournit la
+licence par la variable d'environnement MLM_LICENSE_FILE (ex. : 27000@serveur-licences). Les
+versions exactes des images sont à vérifier sur Docker Hub au moment de l'installation.
+
+
+=== PAGE 16 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 16
+Document de projet — diffusion interne
+10.5 docker-compose.yml
+services:
+  gateway:
+    build: ./gateway
+    ports: ["8443:8443"]          # seul port exposé au téléphone
+    env_file: .env
+    depends_on: [vision-py, matlab-engine, redis, postgres, minio]
+  vision-py:
+    build: ./vision-py
+    expose: ["50051"]
+    deploy: { resources: { limits: { cpus: "2" } } }
+  matlab-engine:
+    build: ./matlab-engine
+    expose: ["9910"]
+    environment:
+      - MLM_LICENSE_FILE=${MLM_LICENSE_FILE:-}   # option B uniquement
+  redis:
+    image: redis:7-alpine
+  postgres:
+    image: postgres:16-alpine
+    environment: [POSTGRES_DB=vaulte, POSTGRES_PASSWORD=${PG_PASSWORD}]
+    volumes: [pgdata:/var/lib/postgresql/data, ./infra/init.sql:/docker-entrypoint-initdb.d/init.sql]
+  minio:
+    image: minio/minio
+    command: server /data
+    volumes: [miniodata:/data]
+volumes: { pgdata: {}, miniodata: {} }
+networks: { default: { name: vaulte-net } }
+10.6 Démarrage
+# 1. Compiler le moteur MATLAB (option A, une seule fois)
+matlab -batch "compiler.build.productionServerArchive('matlab-engine/src/*.m', ...)"
+# 2. Lancer tout l'environnement
+docker compose up --build
+# 3. Vérifier
+curl -k https://localhost:8443/api/v1/health
+# 4. Dans l'app mobile : saisir l'IP locale du poste (ex. 192.168.1.20:8443)
+11. Stratégie de tests
+Niveau
+Contenu
+Outils
+Unitaires
+Fonctions de normalisation, DTW, Procrustes, fusion.
+pytest, MATLAB Unit Test
+Framework
+Intégration
+Gateway ↔ vision-py ↔ matlab-engine avec des séquences
+enregistrées.
+pytest + docker compose
+Performance
+Latence et débit avec 1, 3 et 5 sessions simultanées.
+Locust, journaux de latence
+Biométrique
+Jeu de test : 15 volontaires × 10 essais authentiques + 5
+tentatives d'imitation par couche.
+Script MATLAB de courbes ROC
+/ EER
+Usurpation
+Photo imprimée, vidéo rejouée, imitation observée.
+Protocole manuel
+Utilisabilité
+5 utilisateurs, tâche « ouvrir le coffre » chronométrée.
+Grille d'observation
+Les volontaires du jeu de test doivent signer un consentement écrit ; leurs données sont
+supprimées à la fin de l'évaluation.
+12. Planning prévisionnel
+Découpage en 6 sprints de 2 semaines (12 semaines au total).
+
+
+=== PAGE 17 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 17
+Document de projet — diffusion interne
+Sprint
+Semaines
+Objectifs
+Livrable
+S1
+1–2
+Mise en place Docker, squelette Gateway, app Flutter avec
+caméra et WebSocket.
+Flux de trames de bout en
+bout
+S2
+3–4
+vision-py : Face Mesh, Pose, Hands ; retour qualité en
+direct.
+Landmarks affichés sur
+mobile
+S3
+5–6
+MATLAB : couche main (Procrustes + DTW), enrôlement et
+seuils.
+Couche main fonctionnelle
+S4
+7–8
+Couches visage et corps ; compilation MATLAB Runtime.
+3 couches fonctionnelles
+S5
+9–10
+Séquences, coffre, mème, écran de transparence, mode
+démo.
+Parcours complet
+S6
+11–12
+Tests biométriques, optimisation, documentation,
+démonstration.
+Version 1.0 + rapport
+13. Risques et parades
+Risque
+Impact
+Probabilité
+Parade
+Latence réseau trop forte
+pour le temps réel
+Élevé
+Moyenne
+Réduire à 10 ips et 320×240 ; option d'extraction des
+landmarks sur le téléphone (MediaPipe mobile).
+Absence de licence
+MATLAB
+Élevé
+Moyenne
+Licence campus ; sinon portage des fonctions de score
+en Python (scipy, dtaidistance) en solution de secours.
+Image MATLAB Runtime
+lourde (plusieurs Go)
+Moyen
+Haute
+Construire une fois, mettre en cache ; prévoir 20 Go
+d'espace.
+Éclairage faible, landmarks
+instables
+Moyen
+Haute
+Contrôle de luminosité, lissage, consigne à l'écran.
+Couche corps peu pratique
+(recul nécessaire)
+Moyen
+Haute
+Support de téléphone ; version « buste seul » en
+alternative.
+Message satirique mal
+compris
+Faible
+Moyenne
+Écran de transparence explicite et page « pourquoi ce
+projet ? ».
+14. Livrables et critères d'acceptation
+Livrable
+Critère d'acceptation
+Code source (dépôt Git)
+Compile et démarre avec docker compose up sur un poste vierge suivant le
+README.
+Application Android (APK)
+S'installe sur Android 10+, réalise un parcours complet à 3 couches.
+Images Docker
+gateway, vision-py, matlab-engine construites et documentées.
+Rapport d'évaluation
+Courbes ROC, EER par couche, latences mesurées.
+Documentation
+Ce cahier des charges, guide d'installation, guide de démonstration.
+Vidéo de démonstration
+2 à 3 minutes, de l'inscription à la révélation du mème.
+
+
+=== PAGE 18 OF 18 ===
+THE VAULTE — Cahier des charges v1.0
+Page 18
+Document de projet — diffusion interne
+15. Glossaire
+Terme
+Définition
+Landmark
+Point-clé détecté sur le corps (coin de l'œil, coude, bout de l'index...).
+Blendshape
+Coefficient (0 à 1) décrivant l'intensité d'un mouvement du visage (sourire, clin
+d'œil...).
+Gabarit (template)
+Représentation mathématique de référence enregistrée lors de l'enrôlement.
+Enrôlement
+Phase d'enregistrement des gabarits d'un utilisateur.
+DTW
+Dynamic Time Warping : alignement de deux séquences temporelles de vitesses
+différentes.
+Procrustes
+Méthode qui superpose deux formes en éliminant translation, échelle et rotation.
+Savitzky-Golay
+Filtre de lissage qui réduit le bruit sans déformer la forme du signal.
+Vivacité (liveness)
+Vérification qu'une vraie personne est devant la caméra, pas une photo.
+FAR / FRR / EER
+Taux de fausse acceptation / de faux rejet / taux d'erreur égal.
+MATLAB Runtime
+Environnement gratuit permettant d'exécuter du code MATLAB compilé sans licence.
+Mème
+Image humoristique virale — ici, l'unique trésor du coffre.

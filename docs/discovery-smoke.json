@@ -1,0 +1,8 @@
+{
+  "service": "_thevault._tcp.local.",
+  "lan_address": "192.168.0.161",
+  "port": 8443,
+  "fingerprint_matches": true,
+  "https_responded": true,
+  "scope": "Same-PC multicast discovery and LAN-IP TLS; not an Android device test"
+}

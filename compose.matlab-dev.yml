@@ -1,0 +1,12 @@
+# Host MATLAB uses the current desktop user's existing activation.
+# Start with: python scripts/start.py (sets the temporary scoring credential).
+services:
+  gateway:
+    environment:
+      SCORING_URL: https://host.docker.internal:9910
+      SCORING_TOKEN: ${SCORING_TOKEN:?Start with python scripts/start.py}
+      SCORING_CA_FILE: /scoring-certs/server.pem
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    volumes: ["./.local/scoring-certs/server.pem:/scoring-certs/server.pem:ro"]
+  matlab-engine:
+    profiles: ["container-scoring"]

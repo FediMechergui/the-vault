@@ -1,0 +1,33 @@
+{
+  "health": {
+    "ready": true,
+    "services": {
+      "vision": {
+        "ready": true,
+        "detail": "MediaPipe Tasks CPU"
+      },
+      "scoring": {
+        "ready": true,
+        "engine": "python-reference",
+        "matlab": false
+      },
+      "database": {
+        "ready": true
+      },
+      "sessions": {
+        "ready": true,
+        "backend": "redis"
+      },
+      "media": {
+        "ready": true,
+        "backend": "minio"
+      }
+    }
+  },
+  "blank_frame": {
+    "correctly_rejected": true,
+    "first_frame_round_trip_ms": 152.03390000533545,
+    "server_ms": 145.8
+  },
+  "credential_revoked_after_deletion": true
+}
