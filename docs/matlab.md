@@ -2,13 +2,15 @@
 
 ## Use the MATLAB already installed on this PC
 
-This is now the default path. Run from the project virtual environment:
+Follow [the installation guide](../README.md#windows-install-once) first. The verified
+quick-start runs every service locally, without Docker. From the project environment:
 
 ```powershell
-.venv/Scripts/python.exe scripts/start.py
+.venv/Scripts/python.exe scripts/start.py --local --backend matlab-engine
 ```
 
-On macOS/Linux, use `.venv/bin/python scripts/start.py`. Run as the same operating
+On macOS/Linux, use `.venv/bin/python scripts/start.py --local --backend matlab-engine`.
+Those platforms have not been validated end to end. Run as the same operating
 system user who can open desktop MATLAB successfully. The launcher discovers
 MATLAB from `MATLAB_ROOT`, then `PATH`, then the Windows registry and standard
 Windows/macOS/Linux installation folders. It ignores incomplete installations
@@ -37,9 +39,11 @@ The startup check launches a private MATLAB session, verifies the actual
 installation root, and executes both toolbox operations before routing the
 gateway to it. Existing interactive MATLAB sessions are not modified or closed.
 Keep the launcher terminal open; Ctrl+C closes THE VAULT's private session.
-Docker infrastructure remains installed, but host scoring requires that terminal.
+If you opt into Docker infrastructure, host scoring still requires that terminal.
 
-Docker connects to the host scorer over HTTPS on port 9910, using a separate
+For optional Docker infrastructure, omit `--local` after installing Docker with Linux
+containers. This Docker-to-host bridge still needs end-to-end validation. Docker
+connects to the host scorer over HTTPS on port 9910, using a separate
 development CA and a random per-launch service credential. Only the public
 scoring certificate is mounted into the gateway. The normal app certificate is
 unchanged. On Linux, Compose maps `host.docker.internal` through `host-gateway`;
@@ -52,13 +56,13 @@ allow the intended Docker-to-host connection. Host scoring can also be used with
 .venv/Scripts/python.exe scripts/start.py --check
 
 # Custom MATLAB location; paths with spaces are supported.
-.venv/Scripts/python.exe scripts/start.py --matlab-root "C:/Program Files/MATLAB/R2025b"
+.venv/Scripts/python.exe scripts/start.py --local --backend matlab-engine --matlab-root "C:/Program Files/MATLAB/R2025b"
 
 # Require MATLAB, even on machines where detection finds none.
-.venv/Scripts/python.exe scripts/start.py --backend matlab-engine
+.venv/Scripts/python.exe scripts/start.py --local --backend matlab-engine
 
 # Deliberately use the Python reference.
-.venv/Scripts/python.exe scripts/start.py --backend python-reference
+.venv/Scripts/python.exe scripts/start.py --local --backend python-reference
 
 # All services local, with the same automatic MATLAB selection.
 ./scripts/start-local.ps1
@@ -132,9 +136,9 @@ The already installed compiler needs a qualifying campus, individual or trial
 entitlement that includes the required products. Request a trial from the
 [Compiler SDK product page](https://www.mathworks.com/products/matlab-compiler-sdk.html).
 
-You can still validate the algorithm source in Basic: upload the portable
-`dist/the-vault-matlab-source.zip` archive to MATLAB Online, unzip it into the
-current folder, then run `run('matlab-engine/run_validation.m')`. Basic includes
+You can still validate the algorithm source in Basic: upload the source package's
+`matlab-engine` folder to MATLAB Online, then run
+`run('matlab-engine/run_validation.m')` from its parent folder. Basic includes
 the Signal Processing and Statistics toolboxes used here. This does not connect
 the online session to THE VAULT's local REST service or produce a compiled package.
 

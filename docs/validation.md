@@ -1,5 +1,7 @@
 # Validation update — 14 November 2026
 
+Documentation release **v0.1.1** adds a revised 22-page French specification, an installation/configuration README and a physical-phone test guide. The PDF was rendered for visual review; checks confirmed all source text, 22 bookmarks, 21 contents links and text within page boundaries. Local guide links and documented launcher flags were checked. This documentation update reuses the signed **0.1.0 / build 1** APK with the same SHA-256; it does not claim new app or physical-phone test results.
+
 - Real MATLAB R2026b started through Engine using the current OS user's activation. Both required toolbox preflight operations passed.
 - All 3 MATLAB unit tests passed. Enrollment and 9 scoring comparisons (3 per layer) matched the Python reference within 1e-14 on synthetic fixtures. See [matlab-smoke.json](matlab-smoke.json).
 - The local HTTPS gateway reports `matlab-engine`, `matlab: true`, release `2026b`. Real MediaPipe/gRPC blank-frame rejection and account deletion/revocation passed. This mode uses SQLite, in-memory sessions and local assets. See [matlab-stack-smoke.json](matlab-stack-smoke.json).

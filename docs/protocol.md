@@ -64,6 +64,8 @@ Three failed **matching** attempts lock the account for five minutes. Poor captu
 
 `contracts/vision.proto`: `Extract(Frame) → Landmarks`, `Health`, `Release`. JPEG bytes travel only to the vision service. Extracted signals, never JPEGs, go to `/enroll/{layer}` or `/score/{layer}` on the scoring service. Scoring responses contain the actual `engine` identifier.
 
-Redis stores transient landmarks/session state with a ten-minute maximum lifetime and disabled disk persistence. PostgreSQL stores AES-256-GCM ciphertext with per-record random nonces and user/layer associated data. MinIO stores the meme. Signed media is proxied through the gateway so MinIO does not need a public port.
+In Docker mode, Redis stores transient landmarks/session state with a ten-minute maximum lifetime and disabled disk persistence. PostgreSQL stores AES-256-GCM ciphertext with per-record random nonces and user/layer associated data. MinIO stores the meme. Signed media is proxied through the gateway so MinIO does not need a public port.
+
+The local quick-start uses in-memory sessions, SQLite and local media instead. Template encryption, session expiry, credentials and the public API remain the same. Session state ends when the local server stops; account and template data persist in `.local/vault.db`.
 
 The calibration thresholds and simple liveness rules require real volunteer evaluation. They are not a defense against all video replay, injected camera streams or sophisticated spoofing.
