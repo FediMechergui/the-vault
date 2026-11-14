@@ -170,6 +170,6 @@ results = runtests('matlab-engine/tests');
 assertSuccess(results)
 ```
 
-The Python and MATLAB implementations share the mathematical contract, but numerical parity must be measured with the compiled MATLAB engine before declaring parity. Python passing tests do not establish MATLAB execution success.
+Real Windows R2026b Engine execution is now verified: all three MATLAB unit tests and nine synthetic scoring comparisons passed, with maximum MATLAB/Python differences below 1e-14. See [matlab-smoke.json](matlab-smoke.json). This establishes agreement for those fixtures; compiled Runtime execution and physical biometric accuracy still need validation.
 
 Official references: [MATLAB Docker image and licensing](https://hub.docker.com/r/mathworks/matlab), [MathWorks installer Dockerfile](https://github.com/mathworks-ref-arch/matlab-dockerfile/tree/main/alternates/building-on-matlab-docker-image), [Compiler SDK Python packages](https://www.mathworks.com/help/compiler_sdk/python/compiler.build.pythonpackage.html), [Runtime container configuration](https://www.mathworks.com/help/compiler/get-matlab-runtime-container.html).

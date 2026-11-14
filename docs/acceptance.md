@@ -13,7 +13,7 @@ Source: all 18 pages of the supplied cahier des charges, especially pages 5–8,
 | EF-09: JWT + meme | Full-sequence gate, 15-minute vault token, two-minute media ticket | Full physical three-layer run |
 | EF-11: deletion | Account/templates/attempts/transient sessions deleted; JWTs recheck user | Storage/backups operational review if later deployed |
 | EF-12: administration | Authenticated threshold, meme, log and purge API | Optional admin UI is not included |
-| MATLAB cooperation | Automatic host discovery and existing-user licensing through Engine; authenticated HTTPS host bridge; optional network-license and compiled Runtime Docker paths | Real licensed host execution, MATLAB tests and numerical comparison; Linux compilation only for Runtime deployment |
+| MATLAB cooperation | Automatic host discovery and existing-user licensing through Engine; Windows R2026b activation, toolbox preflight, 3 MATLAB tests and 9 synthetic parity comparisons verified | Docker-to-host bridge, Linux compilation and Runtime execution; wider signal/device evaluation |
 | Security/privacy | TLS with specific development CA, encrypted templates, isolated services, no stored camera frames | Adversarial photo/video testing; no certification claimed |
 | Reveal | Supplied captioned meme + animation/haptic/system sound + clearly fictional dashboard | Subjective comedic timing |
 

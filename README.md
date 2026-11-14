@@ -8,6 +8,8 @@ Built from all 18 pages of `The_Vaulte_Cahier_des_charges.pdf`. This is a local 
 
 Download the APK and server/source ZIP from [GitHub Releases](https://github.com/FediMechergui/the-vault/releases). The same APK works with different PCs: it discovers THE VAULT on the local network, remembers the selected computer, and follows changes to its IP address. No IP address or PC-specific certificate needs to be compiled into the APK.
 
+**v0.1.0:** [Android APK](https://github.com/FediMechergui/the-vault/releases/download/v0.1.0/the-vault-v0.1.0.apk) · [Server and complete source](https://github.com/FediMechergui/the-vault/releases/download/v0.1.0/the-vault-server-v0.1.0.zip). The universal APK is about 52 MB, signed and verified for Android 10+.
+
 You need Android 10+, a front camera, and a PC on the same Wi-Fi. The PC needs an activated desktop MATLAB installation with **Signal Processing Toolbox** and **Statistics and Machine Learning Toolbox**. It uses the current OS user's activation. **Compiler SDK and Docker are not required for the quick-start mode.** MATLAB Online Basic alone is not a desktop activation.
 
 ### Windows setup — once

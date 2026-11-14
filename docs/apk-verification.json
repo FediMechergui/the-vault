@@ -1,0 +1,33 @@
+{
+  "artifact": "the-vault-v0.1.0.apk",
+  "bytes": 52054207,
+  "sha256": "7898c8349f3894501a69f9a4cd014df864de6c67d83570123aa82b0b34628390",
+  "signature_verified": true,
+  "alignment_16k_verified": true,
+  "metadata": [
+    "package: name='dev.thevault.the_vault' versionCode='1' versionName='0.1.0' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'",
+    "sdkVersion:'29'",
+    "targetSdkVersion:'36'",
+    "application-label:'THE VAULT'",
+    "native-code: 'arm64-v8a' 'armeabi-v7a' 'x86_64'"
+  ],
+  "signature_details": [
+    "Verifies",
+    "Verified using v1 scheme (JAR signing): false",
+    "Verified using v2 scheme (APK Signature Scheme v2): false",
+    "Verified using v3 scheme (APK Signature Scheme v3): true",
+    "Verified using v3.1 scheme (APK Signature Scheme v3.1): false",
+    "Verified using v4 scheme (APK Signature Scheme v4): false",
+    "Verified for SourceStamp: false",
+    "Number of signers: 1",
+    "Signer #1 certificate DN: CN=THE VAULT, OU=Android, O=THE VAULT",
+    "Signer #1 certificate SHA-256 digest: ecc3b555edeea260747ba5df938c9fb9e49fae5df366a1479457da27781e878a",
+    "Signer #1 certificate SHA-1 digest: 0d831a28bd707575f7ecbd132e4b44e82dc1e516",
+    "Signer #1 certificate MD5 digest: 03974389c3c26dbb216a7a19d5513250",
+    "Signer #1 key algorithm: RSA",
+    "Signer #1 key size (bits): 3072",
+    "Signer #1 public key SHA-256 digest: 27542233f256825bd16adf882ffcb4bde4635671bac2ef3f1c0a723385f67b6b",
+    "Signer #1 public key SHA-1 digest: 48afbc60bb4144e4c5458a888b2138106a42d7af",
+    "Signer #1 public key MD5 digest: 4741ffeadb9d426c692ed77095fe6a93"
+  ]
+}
