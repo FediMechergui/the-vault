@@ -1,3 +1,11 @@
+# Capture recovery — 15 November 2026
+
+Version v0.1.3 addresses short capture deadlines and temporary tracking errors. The running old server passed health checks but returned `Vision service unavailable` for its first synthetic blank frame; 20 subsequent frames over four sessions succeeded. The old error handling prevents identifying that first failure's exact exception. See [the evidence and changes](capture-recovery.md).
+
+Local validation passed 39 Python tests (36 suite tests and three additional real gRPC transport tests), Flutter analysis and all 10 Flutter tests. Five new widget tests exercise the actual capture screen with a simulated camera and server: delayed frame and command replies, a stalled frame, tracking recovery and malformed messages. The transport test accepted a 4.1-second processing delay. These are controlled tests; the updated phone capture still needs a physical retest.
+
+The APK build and four native discovery tests passed in [Actions run 43745668674](https://github.com/FediMechergui/the-vault/actions/runs/43745668674). The [test and live-probe record](capture-recovery-verification.json), [APK verification](apk-verification-v0.1.3.json), [updater checks](capture-updater-verification.json) and [23-page PDF checks](specification-v1.3-verification.json) are retained. The original signing certificate and 16 KB alignment are verified. Document edition 1.3 adds the capture behavior and current validation limits.
+
 # Android startup fix — 15 November 2026
 
 The original APK's compiled DEX confirmed that the eight-second discovery timer invoked `android.app.Activity.finish()`, closing the app without requiring a tap or a server connection. The completion helper has been renamed to `completeDiscovery`; see [the cause and update instructions](android-startup-fix.md).

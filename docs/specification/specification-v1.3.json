@@ -1,0 +1,1437 @@
+{
+  "title": "THE VAULT",
+  "revision": "1.3",
+  "package": "v0.1.3",
+  "application": "0.1.3 / build 3",
+  "date": "15 novembre 2026",
+  "source": "The_Vaulte_Cahier_des_charges.pdf",
+  "pages": [
+    {
+      "title": "Lire cette édition",
+      "subtitle": "Un état de référence qui distingue le code, les preuves et les objectifs.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Cette édition révise le cahier des charges initial de 18 pages, daté du 13 novembre 2026. Elle décrit le logiciel livré et les adaptations demandées : licence MATLAB du poste, connexion automatique et diffusion publique du code et de l’APK."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Repère",
+            "Signification"
+          ],
+          "rows": [
+            [
+              "Implémenté",
+              "Le comportement existe dans le code. Cela ne suffit pas à prouver son bon fonctionnement sur chaque téléphone."
+            ],
+            [
+              "Vérifié",
+              "Une exécution ou un test identifié apporte une preuve, limitée aux conditions décrites."
+            ],
+            [
+              "À valider",
+              "Le critère reste une cible : aucune mesure de terrain n’est inventée."
+            ]
+          ],
+          "widths": [
+            100,
+            413
+          ]
+        },
+        {
+          "type": "note",
+          "title": "Versions distinctes",
+          "text": "Document 1.3 et application 0.1.3, build 3. Cette édition ajoute les correctifs de démarrage et la reprise après une erreur de suivi temporaire."
+        },
+        {
+          "type": "toc"
+        }
+      ]
+    },
+    {
+      "title": "Le projet et son périmètre",
+      "subtitle": "Une ingénierie réelle au service d’une chute satirique.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "THE VAULT demande jusqu’à trois preuves comportementales — visage, mouvement du corps et signature aérienne — pour ouvrir un coffre qui ne contient qu’un mème. L’écran de transparence évoque le partage de données avec 347 partenaires fictifs. Les chiffres restent explicitement illustratifs."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Acteur",
+            "Responsabilité"
+          ],
+          "rows": [
+            [
+              "Utilisateur",
+              "Consentir, créer un pseudonyme, enregistrer ses mouvements, choisir la séquence et supprimer son compte."
+            ],
+            [
+              "Démonstrateur",
+              "Préparer le poste, expliquer les limites, activer les diagnostics et présenter le parcours."
+            ],
+            [
+              "Administrateur local",
+              "Gérer les clés et données du poste ; utiliser l’API de seuil, mème, journaux et purge."
+            ],
+            [
+              "Système",
+              "Extraire les signaux avec MediaPipe, comparer avec MATLAB, appliquer l’ordre et les règles d’accès."
+            ]
+          ],
+          "widths": [
+            110,
+            403
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Inclus dans la version d’essai"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "APK Android 10+, serveur local, scripts d’installation, code complet et documentation.",
+            "Trois modalités, enrôlement 2/3/5 répétitions, séquence configurable et défi aléatoire supplémentaire.",
+            "Détection automatique du poste sur le LAN, licence MATLAB existante et certificats mémorisés."
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Hors périmètre ou non livré"
+        },
+        {
+          "type": "p",
+          "text": "Hébergement Internet de production, haute disponibilité, récupération de compte, certification biométrique et client iOS livré. Le rapport statistique final et la vidéo de démonstration restent à produire. Le nom THE VAULT reprend la demande utilisateur ; le PDF initial utilisait THE VAULTE."
+        }
+      ]
+    },
+    {
+      "title": "Ce qui a changé depuis le plan",
+      "subtitle": "Les écarts sont explicités, sans effacer l’intention initiale.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Plan initial",
+            "État de cette version"
+          ],
+          "rows": [
+            [
+              "MATLAB principalement dans Docker",
+              "Par défaut pour l’essai : MATLAB Engine sur le poste, sous l’activation de l’utilisateur. Configurations Docker conservées en option."
+            ],
+            [
+              "PostgreSQL, Redis et MinIO obligatoires",
+              "Démarrage simple avec SQLite, sessions en mémoire et médias locaux. Les trois services existent dans le mode Docker."
+            ],
+            [
+              "Adresse IP saisie dans l’application",
+              "Découverte mDNS Android, identité de poste persistante et empreinte du certificat mémorisée."
+            ],
+            [
+              "Un seul port publié, moteurs isolés dans Docker",
+              "8443 et 5353 pour le LAN. Le mode Docker avec MATLAB hôte utilise aussi un scorer HTTPS sur 9910."
+            ],
+            [
+              "Exemple de compilation Production Server",
+              "Script Compiler SDK produisant un package Python. Compilation Runtime toujours à vérifier."
+            ],
+            [
+              "MATLAB filtre, compare et fusionne",
+              "Kalman dans la vision Python ; fonctions MATLAB de comparaison ; fusion finale exécutée par la passerelle Python."
+            ],
+            [
+              "Poids de fusion configurables et score global journalisé",
+              "Poids égaux en pratique ; résultats individuels stockés ; pas d’éditeur des poids ni de stockage séparé du score fusionné."
+            ],
+            [
+              "Interface française, cartes et tutoriels animés",
+              "Interface anglaise, interrupteurs et ordre modifiable ; guidage visuel présent, tutoriels animés et jauge de cohérence absents."
+            ],
+            [
+              "Mème plein écran et son dédié",
+              "Image fournie avec « MECHNI FEHEM HATA CHY », zone de révélation de 330 px, animation, vibration et clic système."
+            ]
+          ],
+          "widths": [
+            178,
+            335
+          ]
+        },
+        {
+          "type": "note",
+          "title": "Une parade déjà prévue",
+          "text": "Le recours au score Python faute de licence figurait à la page 17 du document initial. MATLAB a depuis été exécuté avec une licence réelle ; le fallback reste explicite."
+        }
+      ]
+    },
+    {
+      "title": "Architecture actuelle",
+      "subtitle": "Le téléphone capture ; le poste traite, conserve et décide.",
+      "blocks": [
+        {
+          "type": "architecture"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Flux / port",
+            "Usage"
+          ],
+          "rows": [
+            [
+              "HTTPS + WSS / TCP 8443",
+              "Téléphone ↔ passerelle : comptes, captures, verdicts et mème."
+            ],
+            [
+              "mDNS / UDP 5353",
+              "Annonce locale du nom, de l’identité et de l’empreinte publique du serveur."
+            ],
+            [
+              "gRPC / TCP 50051",
+              "Passerelle → MediaPipe : extraction des landmarks. Interne au poste/réseau Docker."
+            ],
+            [
+              "HTTPS / TCP 9910",
+              "Passerelle → MATLAB hôte. Boucle locale en mode simple ; accès depuis Docker en mode hybride."
+            ]
+          ],
+          "widths": [
+            175,
+            338
+          ]
+        },
+        {
+          "type": "note",
+          "title": "Deux modes de stockage",
+          "text": "Le mode --local est le chemin vérifié avec MATLAB. Docker remplace le stockage par PostgreSQL, Redis et MinIO ; le pont Docker → MATLAB hôte reste à valider."
+        }
+      ]
+    },
+    {
+      "title": "MATLAB : installation et licence",
+      "subtitle": "Réutiliser l’activation du poste, sans copier une licence.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Le launcher recherche une installation complète : chemin explicite ou MATLAB_ROOT, PATH, registre Windows et emplacements usuels. Runtime seul et dossiers incomplets sont ignorés. Le compte système doit pouvoir lancer MATLAB et utiliser les deux toolboxes requises."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Mode",
+            "Prérequis",
+            "État"
+          ],
+          "rows": [
+            [
+              "Engine sur le poste",
+              "MATLAB + Signal Processing Toolbox + Statistics and Machine Learning Toolbox ; Python compatible.",
+              "Vérifié sur Windows R2026b. Compiler SDK non requis."
+            ],
+            [
+              "MATLAB dans Docker",
+              "Installation/container et licence réseau configurée, avec produits requis.",
+              "Configuration fournie ; pas de preuve de ce parcours complet."
+            ],
+            [
+              "Runtime compilé",
+              "Compilation Linux préalable via Compiler SDK, puis Runtime correspondant.",
+              "Scripts fournis ; aucun package compilé livré."
+            ],
+            [
+              "Référence Python",
+              "Dépendances Python ; aucun MATLAB.",
+              "Alternative explicite, indiquée comme telle par health."
+            ]
+          ],
+          "widths": [
+            115,
+            231,
+            167
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Contrôle de démarrage"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "API Engine correspondant à l’installation ; démarrage d’une session privée.",
+            "Exécution de sgolayfilt et procrustes pour vérifier les opérations et toolboxes.",
+            "Erreur explicite en cas d’échec. Aucun remplacement silencieux d’un MATLAB trouvé mais inutilisable."
+          ]
+        },
+        {
+          "type": "code",
+          "text": ".venv/Scripts/python.exe scripts/start.py --check"
+        },
+        {
+          "type": "p",
+          "text": "Cette commande ne démarre pas MATLAB et renvoie volontairement license_checked: false. La preuve de disponibilité vient du démarrage réel, puis de /api/v1/health."
+        },
+        {
+          "type": "note",
+          "title": "MATLAB Online Basic",
+          "text": "Le droit d’accès au service en ligne ne constitue pas une activation desktop. Voir les références MathWorks dans le README et docs/matlab.md."
+        }
+      ]
+    },
+    {
+      "title": "Connexion automatique sur le LAN",
+      "subtitle": "La même application peut être utilisée avec le poste de chaque utilisateur.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Étape",
+            "Comportement"
+          ],
+          "rows": [
+            [
+              "1 · Annoncer",
+              "Le launcher publie _thevault._tcp.local. avec l’ID persistant du serveur, son port et le SHA-256 du certificat public."
+            ],
+            [
+              "2 · Découvrir",
+              "Android utilise NsdManager. Un seul serveur disponible est sélectionné ; plusieurs serveurs exigent un choix."
+            ],
+            [
+              "3 · Vérifier",
+              "Le client teste la santé HTTPS avec l’empreinte annoncée. Aucune image n’est nécessaire pour ce contrôle."
+            ],
+            [
+              "4 · Mémoriser",
+              "Identité et empreinte sont stockées avec les informations de connexion. La première association repose sur la confiance dans le LAN."
+            ],
+            [
+              "5 · Retrouver",
+              "Le même ID peut être retrouvé à une nouvelle adresse ; un changement de certificat ou un autre poste ne reçoit pas silencieusement les identifiants sauvegardés."
+            ]
+          ],
+          "widths": [
+            100,
+            413
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Périmètre réseau réel"
+        },
+        {
+          "type": "p",
+          "text": "Le fonctionnement prévu est un LAN IPv4 privé joignable. La découverte privilégie la route IPv4 privée par défaut du PC. Les plages privées courantes sont acceptées par le client. Le multicast ne franchit pas automatiquement les routeurs ; réseau invité, isolation des clients, VPN ou interfaces multiples peuvent empêcher la découverte."
+        },
+        {
+          "type": "note",
+          "title": "Pare-feu Windows autorisé",
+          "text": "TCP 8443 et UDP 5353 sont ouverts sur tous les profils Windows, avec RemoteAddress = LocalSubnet. Cette règle suit les sous-réseaux directement connectés ; elle ne publie pas le serveur sur Internet."
+        },
+        {
+          "type": "p",
+          "text": "Ne pas remplacer .local/server-id ni infra/certs lors d’un simple changement d’adresse. Le certificat par défaut expire après un an ; sa rotation exige de prévoir une nouvelle association."
+        }
+      ]
+    },
+    {
+      "title": "Parcours et écrans",
+      "subtitle": "Des instructions utilisables avec les libellés réels de l’application.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Moment",
+            "Action et résultat attendu"
+          ],
+          "rows": [
+            [
+              "Consentement",
+              "Create your vault → pseudonyme et accord explicite. La caméra est demandée ensuite, dans la capture."
+            ],
+            [
+              "Choix du rituel",
+              "Activer 1 à 3 couches, enregistrer celles choisies, modifier leur ordre, puis Save my ritual."
+            ],
+            [
+              "Enrôlement",
+              "Compte à rebours de 3 s, qualité en direct, répétitions obligatoires : visage 2, corps 3, main 5."
+            ],
+            [
+              "Authentification",
+              "Open my vault → défis dans l’ordre imposé par le serveur. Vivacité aléatoire avant chaque défi visage."
+            ],
+            [
+              "Révélation",
+              "Tous les défis réussis → JWT du coffre, animation, mème et écran de transparence fictif."
+            ],
+            [
+              "Diagnostics",
+              "Appui long sur le logo ou Settings → Demonstration mode. Landmarks, temps, FPS et dernier score."
+            ],
+            [
+              "Suppression",
+              "Settings → Delete all my data : effacement logique et révocation des sessions/identifiants."
+            ]
+          ],
+          "widths": [
+            115,
+            398
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Niveaux conservés dans l’intention"
+        },
+        {
+          "type": "p",
+          "text": "Cautious, Suspicious et Whistleblower correspondent à une, deux ou trois couches. Certified conspiracist mélange les trois couches et en ajoute une, choisie aléatoirement."
+        },
+        {
+          "type": "note",
+          "title": "Limites visibles à garder dans le suivi",
+          "text": "Les consignes sont principalement textuelles. La barre indique la progression de capture, pas une jauge statistique de cohérence. Le score de décision apparaît après capture ; ce n’est pas une authentification continue à chaque image."
+        }
+      ]
+    },
+    {
+      "title": "Couche visage",
+      "subtitle": "Topologie, séquence d’expressions et vivacité basique.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Élément",
+            "Implémentation"
+          ],
+          "rows": [
+            [
+              "Landmarks",
+              "468 points parmi les 478 produits par le modèle Tasks ; les points d’iris supplémentaires sont écartés."
+            ],
+            [
+              "Topologie",
+              "60 distances entre ancres, normalisées par la distance interoculaire ; médiane sur la capture."
+            ],
+            [
+              "Expressions",
+              "Série temporelle des 52 blendshapes, lissée et rééchantillonnée. Deux répétitions à l’enrôlement."
+            ],
+            [
+              "Comparaison",
+              "45 % de distance géométrique cosinus mise à l’échelle + 55 % de DTW des expressions."
+            ],
+            [
+              "Durée",
+              "Cible client 3,8 s ; validation serveur de 1,2 à 4,5 s. Le plan initial indiquait 4 s maximum."
+            ],
+            [
+              "Vivacité",
+              "Cligner deux fois ou regarder droit puis tourner à gauche/droite ; contrôle élémentaire de profondeur des landmarks."
+            ]
+          ],
+          "widths": [
+            115,
+            398
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Consigne utilisateur"
+        },
+        {
+          "type": "p",
+          "text": "Choisir deux expressions distinctes, faciles à reproduire, et les répéter dans le même ordre. Pendant l’authentification, réaliser d’abord le défi de vivacité indiqué, puis commencer la séquence secrète."
+        },
+        {
+          "type": "note",
+          "title": "Ce que le code ne prouve pas",
+          "text": "Le validateur vérifie une variation suffisante des blendshapes ; il ne compte pas explicitement deux expressions distinctes. La profondeur estimée par le modèle et le défi aléatoire ne prouvent pas la résistance à une vidéo rejouée ou à une caméra injectée."
+        },
+        {
+          "type": "p",
+          "text": "Les coefficients 45/55 et les bornes de seuil sont des choix d’implémentation à calibrer. La précision par utilisateur, sous différents éclairages et angles, reste à mesurer."
+        }
+      ]
+    },
+    {
+      "title": "Corps et signature aérienne",
+      "subtitle": "Comparer le mouvement personnel, pas seulement un geste générique.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Paramètre",
+            "Corps",
+            "Main"
+          ],
+          "rows": [
+            [
+              "Entrée",
+              "33 landmarks de pose.",
+              "21 landmarks ; pointe de l’index n° 8."
+            ],
+            [
+              "Enrôlement",
+              "3 répétitions.",
+              "5 répétitions."
+            ],
+            [
+              "Normalisation",
+              "Centrage bassin, échelle torse ; angles articulaires.",
+              "Tracé 2D centré et mis à l’échelle ; rééchantillonnage à 64 points."
+            ],
+            [
+              "Descripteurs",
+              "12 angles et leurs vitesses.",
+              "Forme, vitesse et accélération du tracé."
+            ],
+            [
+              "Comparaison",
+              "DTW multivariée, bande de 10 %.",
+              "40 % Procrustes sans réflexion + 60 % DTW dynamique."
+            ],
+            [
+              "Temps",
+              "Capture cible 5 s ; validation 3 à 6,5 s, avec tolérance au-delà des 6 s initiales.",
+              "Capture entre 0,7 et 8 s ; contrôle des pinces de départ et de fin."
+            ],
+            [
+              "Qualité",
+              "Mains et pieds visibles ; mouvement suffisant.",
+              "Main suivie, tracé assez ample ; début et fin cohérents."
+            ]
+          ],
+          "widths": [
+            94,
+            209.5,
+            209.5
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Geste de la main"
+        },
+        {
+          "type": "p",
+          "text": "Montrer une main ouverte. Pincer pouce/index, relâcher pour tracer, puis pincer une seconde fois pour terminer. Un simple maintien de la pince ne remplace pas les deux transitions attendues."
+        },
+        {
+          "type": "h",
+          "text": "Reconnaissance en direct"
+        },
+        {
+          "type": "p",
+          "text": "Les étiquettes blink, smile, pinch, pointing ou arms raised sont calculées à partir de règles géométriques et de blendshapes. L’authentification utilise les séries de mouvement enregistrées ; aucun classifieur général de gestes entraîné spécifiquement pour ce projet n’est livré."
+        },
+        {
+          "type": "note",
+          "title": "Alternative du plan non réalisée",
+          "text": "Le mode corps « buste seul » était une parade possible dans le PDF initial. La version actuelle demande le corps entier."
+        }
+      ]
+    },
+    {
+      "title": "Traitement et décision",
+      "subtitle": "Des paramètres explicites et une calibration encore à mesurer sur le terrain.",
+      "blocks": [
+        {
+          "type": "bullets",
+          "items": [
+            "Cadence de préparation : interpolation vers environ 15 échantillons/s, puis Savitzky–Golay (fenêtre 7, ordre 2).",
+            "Rééchantillonnage temporel à 64 points pour la comparaison ; DTW avec fenêtre de Sakoe–Chiba à 10 %.",
+            "Kalman dans la vision Python. Les prédictions de points manquants servent à la continuité visuelle et ne valident pas une capture de qualité insuffisante.",
+            "Rejet d’un trou de suivi supérieur à 0,4 s, d’une durée invalide ou d’un mouvement insuffisant."
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Seuil personnel à l’enrôlement"
+        },
+        {
+          "type": "p",
+          "text": "Les répétitions sont comparées entre elles. Le seuil est μ + 2σ, limité par des bornes ; si la variabilité dépasse la borne maximale, l’enrôlement est refusé."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Couche",
+            "Minimum",
+            "Maximum"
+          ],
+          "rows": [
+            [
+              "Visage",
+              "0,025",
+              "0,18"
+            ],
+            [
+              "Corps",
+              "0,035",
+              "0,22"
+            ],
+            [
+              "Main",
+              "0,04",
+              "0,32"
+            ]
+          ],
+          "widths": [
+            225,
+            144,
+            144
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Score et règle de passage"
+        },
+        {
+          "type": "code",
+          "text": "d = median(distances aux repetitions)\nratio = d / seuil_personnel\nscore = clip(1 - 0.2 * ratio, 0, 1)\npasse = ratio <= 1 ET score >= minimum_score"
+        },
+        {
+          "type": "p",
+          "text": "minimum_score vaut 0,80 par défaut et l’API admin permet 0,80 à 0,99. Toutes les couches doivent passer. La passerelle calcule une moyenne à poids égaux ; les scores individuels sont journalisés."
+        },
+        {
+          "type": "note",
+          "title": "Interprétation",
+          "text": "Le score et la confiance fondée sur le nombre d’échantillons ne sont pas des probabilités calibrées d’identité. Neuf cas synthétiques concordants MATLAB/Python vérifient une cohérence numérique, pas un taux de fausse acceptation."
+        }
+      ]
+    },
+    {
+      "title": "API, données et responsabilités",
+      "subtitle": "Une frontière claire entre images, signaux et autorisations.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Route / famille",
+            "Rôle"
+          ],
+          "rows": [
+            [
+              "POST /api/v1/users",
+              "Pseudonyme + consentement ; identifiant et jeton de gestion."
+            ],
+            [
+              "GET /users/me ; PUT /users/{id}/sequence",
+              "Profil, couches enregistrées et ordre choisi (préfixe /api/v1)."
+            ],
+            [
+              "POST /enroll/{layer}/start et /commit",
+              "Session et validation des répétitions obligatoires."
+            ],
+            [
+              "POST /auth/start ; /auth/{session_id}/next",
+              "Défis imposés par le serveur ; progression et verdict."
+            ],
+            [
+              "WS /ws/stream/{session_id}",
+              "Jeton en premier message JSON ; images JPEG binaires ensuite."
+            ],
+            [
+              "GET /vault ; /vault/meme?ticket=…",
+              "Accès après succès complet ; média signé valable deux minutes."
+            ],
+            [
+              "DELETE /users/{id} ; GET /health",
+              "Suppression/révocation ; état des dépendances et moteur réel."
+            ],
+            [
+              "/api/v1/admin/settings, attempts, meme",
+              "Seuil, journaux/purge et remplacement PNG ; X-Admin-Key requis."
+            ]
+          ],
+          "widths": [
+            247,
+            266
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Stockage"
+        },
+        {
+          "type": "p",
+          "text": "users : pseudonyme, consentement, ordre, compteur d’échecs et verrou. templates : caractéristiques chiffrées, version, seuil et statistiques inclus dans le contenu chiffré. auth_attempts : couches, scores individuels, résultat et durée. settings : score minimal. vault_items : mème actif et légende."
+        },
+        {
+          "type": "h",
+          "text": "Transport des images"
+        },
+        {
+          "type": "p",
+          "text": "Un message binaire contient 4 octets de numéro de trame, 8 octets d’horodatage puis le JPEG. Une seule trame en vol limite la file d’attente côté app. Le JPEG va au service de vision ; seules les séries extraites vont au scorer."
+        },
+        {
+          "type": "p",
+          "text": "Le schéma est créé par SQLAlchemy, et non par le fichier init.sql illustratif du premier plan. Les détails complets et les limites de messages sont dans docs/protocol.md."
+        }
+      ]
+    },
+    {
+      "title": "Sécurité et vie privée",
+      "subtitle": "Décrire les protections réellement implémentées et leurs limites.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Mesure",
+            "Application"
+          ],
+          "rows": [
+            [
+              "Consentement",
+              "Accord explicite avant l’accès à la capture caméra ; pseudonyme sans email obligatoire."
+            ],
+            [
+              "Minimisation",
+              "Pas de stockage intentionnel des images ou vidéos de caméra ; traitement en mémoire et gabarits chiffrés."
+            ],
+            [
+              "Chiffrement",
+              "AES-256-GCM, nonce par enregistrement, association utilisateur/couche ; clé dans .env hors base."
+            ],
+            [
+              "Transport",
+              "HTTPS/WSS et pin SHA-256 du serveur associé ; scorer hôte avec certificat distinct et secret de service."
+            ],
+            [
+              "Jetons séparés",
+              "Gestion : portée limitée, durée un an. Coffre : 15 min et seulement après tous les défis. Sessions de capture : 10 min maximum."
+            ],
+            [
+              "Abus et rejeu",
+              "Ordre contrôlé côté serveur, numéros/temps croissants, limites de débit, session consommée et verrou après trois échecs de comparaison."
+            ],
+            [
+              "Suppression",
+              "Effacement logique du compte, gabarits et tentatives ; révocation des sessions et vérification de l’existence du compte."
+            ],
+            [
+              "Conservation",
+              "Purge des tentatives après 30 jours. Les gabarits restent jusqu’à la suppression du compte."
+            ]
+          ],
+          "widths": [
+            125,
+            388
+          ]
+        },
+        {
+          "type": "note",
+          "title": "Association initiale",
+          "text": "Le premier certificat est obtenu par découverte locale : ce mécanisme ne fournit pas une preuve d’identité hors bande. Faire la première association sur un réseau de confiance. Les changements ultérieurs de certificat sont refusés."
+        },
+        {
+          "type": "p",
+          "text": "Aucune certification anti-usurpation ou conformité juridique n’est revendiquée. Les sauvegardes et l’effacement physique du support ne sont pas couverts par une suppression logique. Un déploiement réel exige une revue spécifique. Ne jamais publier .env, clés privées, bases ou activations MATLAB."
+        }
+      ]
+    },
+    {
+      "title": "Installer sur Windows",
+      "subtitle": "Le parcours recommandé pour une personne qui télécharge le projet.",
+      "blocks": [
+        {
+          "type": "h",
+          "text": "1 · Préparer MATLAB et le dossier"
+        },
+        {
+          "type": "p",
+          "text": "Ouvrir MATLAB sous son compte habituel, résoudre l’activation et vérifier les deux toolboxes. Télécharger le ZIP serveur v0.1.3, faire « Extraire tout », puis ouvrir PowerShell dans le dossier the-vault qui contient README.md."
+        },
+        {
+          "type": "h",
+          "text": "2 · Installer uv, si nécessaire"
+        },
+        {
+          "type": "code",
+          "text": "winget install --id astral-sh.uv --exact"
+        },
+        {
+          "type": "p",
+          "text": "Fermer et rouvrir PowerShell. Vérifier uv --version. Aucune installation de Flutter ou d’Android Studio n’est nécessaire pour utiliser l’APK fourni."
+        },
+        {
+          "type": "h",
+          "text": "3 · Préparer les services"
+        },
+        {
+          "type": "code",
+          "text": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1"
+        },
+        {
+          "type": "p",
+          "text": "Le script crée Python 3.11 dans .venv, installe les dépendances, télécharge les modèles officiels, génère les contrats et les secrets locaux. Il préserve les secrets existants. Attendre « Setup complete »."
+        },
+        {
+          "type": "h",
+          "text": "4 · Ouvrir le pare-feu local"
+        },
+        {
+          "type": "p",
+          "text": "Dans PowerShell administrateur, depuis le même dossier :"
+        },
+        {
+          "type": "code",
+          "text": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/enable-lan.ps1"
+        },
+        {
+          "type": "h",
+          "text": "5 · Démarrer sous le compte MATLAB habituel"
+        },
+        {
+          "type": "code",
+          "text": ".venv/Scripts/python.exe scripts/start.py --local --backend matlab-engine"
+        },
+        {
+          "type": "p",
+          "text": "Laisser la fenêtre ouverte. Attendre l’annonce de découverte, puis vérifier la santé dans une seconde fenêtre :"
+        },
+        {
+          "type": "code",
+          "text": "curl.exe --cacert infra/certs/server.pem https://localhost:8443/api/v1/health"
+        },
+        {
+          "type": "note",
+          "title": "Résultat attendu",
+          "text": "ready = true ; services.scoring.engine = matlab-engine ; services.scoring.matlab = true. Installer ensuite l’APK sur Android 10+ et suivre TESTING.md."
+        }
+      ]
+    },
+    {
+      "title": "Configurer et exploiter",
+      "subtitle": "Changer ce qui est nécessaire, préserver ce qui identifie le serveur.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Besoin",
+            "Réglage"
+          ],
+          "rows": [
+            [
+              "Emplacement MATLAB inhabituel",
+              "Ajouter --matlab-root \"D:/MATLAB/R2026b\", adapté au résultat de matlabroot."
+            ],
+            [
+              "Démarrage lent",
+              "Ajouter --startup-timeout 300 au launcher."
+            ],
+            [
+              "Port local différent",
+              "--local --port 8444 ; ajuster aussi la règle TCP du pare-feu. Le script fourni ouvre 8443."
+            ],
+            [
+              "Sans licence MATLAB",
+              "--local --backend python-reference ; le moteur réel reste visible dans health."
+            ],
+            [
+              "Infrastructure Docker",
+              "Retirer --local ; installer Docker avec conteneurs Linux. Le scorer reste sur le poste avec --backend matlab-engine."
+            ],
+            [
+              "Arrêter",
+              "Ctrl+C ferme les services locaux et la session MATLAB détenue par le launcher. En mode Docker, arrêter séparément les conteneurs."
+            ]
+          ],
+          "widths": [
+            165,
+            348
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Mises à jour et sauvegarde privée"
+        },
+        {
+          "type": "p",
+          "text": "Arrêter le serveur avant la sauvegarde. Conserver ensemble .env, .local et infra/certs pour les données/identités locales ; sauvegarder séparément les volumes en mode Docker. Ne pas joindre ces éléments au code public. Le nouveau ZIP ne transporte aucune licence ni donnée utilisateur."
+        },
+        {
+          "type": "h",
+          "text": "Changement de poste ou de certificat"
+        },
+        {
+          "type": "p",
+          "text": "Un changement d’IP ne nécessite pas de nouveau certificat. Un remplacement volontaire d’identité ou de certificat exige une nouvelle association ; il n’existe pas d’outil de récupération de compte. Supprimer le compte depuis l’ancien serveur tant qu’il est accessible si l’on souhaite repartir sur un autre poste."
+        },
+        {
+          "type": "note",
+          "title": "Plateformes",
+          "text": "Les commandes macOS/Linux sont fournies dans le README. Leur disponibilité dans le code ne constitue pas une validation terrain de ces plateformes. La découverte Android reste limitée au réseau local IPv4 privé joignable."
+        }
+      ]
+    },
+    {
+      "title": "Premier essai : main seulement",
+      "subtitle": "Une procédure courte pour isoler les problèmes avant de tester les trois couches.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Étape",
+            "Action",
+            "Résultat attendu"
+          ],
+          "rows": [
+            [
+              "1",
+              "Contrôler health et ouvrir l’app sur le même LAN.",
+              "Moteur MATLAB prêt ; poste attendu découvert."
+            ],
+            [
+              "2",
+              "Créer un pseudonyme de test et consentir.",
+              "Caméra proposée seulement après consentement."
+            ],
+            [
+              "3",
+              "Désactiver Face et Body ; garder Hand.",
+              "Une seule couche sélectionnée."
+            ],
+            [
+              "4",
+              "Record this layer ; main ouverte, bien éclairée.",
+              "Main suivie et indication de qualité."
+            ],
+            [
+              "5",
+              "Après le compte à rebours : pincer, relâcher, tracer, pincer.",
+              "Une trace suit l’index et la prise se termine."
+            ],
+            [
+              "6",
+              "Répéter le même motif cinq fois.",
+              "Les cinq répétitions sont exigées ; la cohérence est contrôlée."
+            ],
+            [
+              "7",
+              "Save my ritual, puis Open my vault.",
+              "Défi Hand seulement."
+            ],
+            [
+              "8",
+              "Refaire le motif enregistré.",
+              "Un succès permet l’animation puis le mème ; un échec n’ouvre pas le coffre."
+            ]
+          ],
+          "widths": [
+            50,
+            237,
+            226
+          ]
+        },
+        {
+          "type": "note",
+          "title": "Interprétation des erreurs",
+          "text": "Une capture de mauvaise qualité doit être refaite. Si l’enrôlement varie trop, choisir un motif plus simple et le réenregistrer. Une minuterie terminée n’est jamais une preuve de reconnaissance."
+        },
+        {
+          "type": "p",
+          "text": "Utiliser un compte jetable : le test final inclut sa suppression. Consigner le modèle de téléphone, les versions, le résultat et l’étape exacte d’un éventuel échec. Le guide TESTING.md fournit une grille à remplir."
+        },
+        {
+          "type": "p",
+          "text": "La procédure décrit ce qu’un testeur doit constater. Elle ne transforme pas la compilation de l’APK en preuve d’un essai physique déjà réalisé."
+        }
+      ]
+    },
+    {
+      "title": "Essais complets et cas d’échec",
+      "subtitle": "Ajouter progressivement les couches, puis tester les protections.",
+      "blocks": [
+        {
+          "type": "h",
+          "text": "Visage, puis corps"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Activer Face ; enregistrer deux prises avec les deux expressions dans le même ordre. À l’authentification, exécuter la vivacité avant la séquence secrète.",
+            "Activer Body ; poser le téléphone, inclure mains et pieds, enregistrer trois mouvements cohérents.",
+            "Sauvegarder Face → Body → Hand, puis exécuter les trois couches. Mesurer la durée totale.",
+            "Changer l’ordre et refaire un essai. Activer ensuite le mode aléatoire : trois couches mélangées et une couche supplémentaire."
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Contrôle",
+            "Résultat attendu à noter"
+          ],
+          "rows": [
+            [
+              "Caméra masquée / hors cadre",
+              "Qualité insuffisante, nouvelle prise, aucun accès au mème."
+            ],
+            [
+              "Geste différent mais bien capturé",
+              "Échec de comparaison. S’il passe, consigner cette acceptation pour investigation."
+            ],
+            [
+              "Trois échecs de comparaison",
+              "Verrou de cinq minutes. Les erreurs de qualité ne comptent pas dans ces trois échecs."
+            ],
+            [
+              "Serveur arrêté puis relancé",
+              "Erreur de connexion pendant l’arrêt ; reconnexion au même poste après reprise."
+            ],
+            [
+              "Changement de LAN/adresse",
+              "Après annulation de la capture et maintien de l’identité, découverte de la nouvelle adresse."
+            ],
+            [
+              "Suppression du compte jetable",
+              "Compte, gabarits, tentatives et autorisations révoqués logiquement."
+            ]
+          ],
+          "widths": [
+            183,
+            330
+          ]
+        },
+        {
+          "type": "note",
+          "title": "Diagnostic",
+          "text": "Activer le mode démo pour distinguer qualité de suivi, débit, latence et décision. Une comparaison correcte peut échouer ; le protocole doit conserver ces observations, pas seulement les captures réussies."
+        }
+      ]
+    },
+    {
+      "title": "Preuves de validation disponibles",
+      "subtitle": "Un périmètre précis pour chaque résultat.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Vérification",
+            "Résultat enregistré",
+            "Limite"
+          ],
+          "rows": [
+            [
+              "Python",
+              "39 tests réussis.",
+              "Signaux synthétiques et doubles explicitement identifiés pour certains services."
+            ],
+            [
+              "Flutter",
+              "Analyse sans problème ; 10 tests réussis.",
+              "Ne remplace pas la caméra et la découverte sur téléphone physique."
+            ],
+            [
+              "MATLAB réel",
+              "Windows R2026b, activation utilisateur, deux opérations toolbox et 3 tests MATLAB.",
+              "Pas une validation de chaque licence, version ou OS."
+            ],
+            [
+              "Accord numérique",
+              "9 comparaisons synthétiques, 3 par couche ; écart maximal < 1e-14.",
+              "Pas une mesure de précision biométrique."
+            ],
+            [
+              "Stack local",
+              "Health MATLAB, JPEG vide rejeté via HTTPS/WSS/gRPC, suppression et révocation.",
+              "Aucune reconnaissance de personne dans ce test de trame vide."
+            ],
+            [
+              "Découverte et TLS",
+              "mDNS sur le même PC ; certificat annoncé vérifié ; vrais clients Dart HTTPS/WSS acceptent le pin correct et refusent le mauvais.",
+              "Découverte Android sur un autre appareil à valider."
+            ],
+            [
+              "APK",
+              "Build CI réussi, signature privée vérifiée, alignement 16 Ko ; Android 10+, ARM64/ARMv7/x86-64.",
+              "Installation et parcours physique encore à exécuter."
+            ]
+          ],
+          "widths": [
+            102,
+            196,
+            215
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Refaire les vérifications"
+        },
+        {
+          "type": "code",
+          "text": ".venv/Scripts/python.exe -m pytest\n.venv/Scripts/python.exe scripts/verify_matlab.py"
+        },
+        {
+          "type": "p",
+          "text": "Le vérificateur MATLAB ouvre sa propre session. Pour un contrôle du serveur en cours : scripts/smoke_stack.py --output .local/my-stack-smoke.json. Les résultats sources sont dans docs/validation.md et les fichiers JSON associés."
+        },
+        {
+          "type": "note",
+          "title": "Travaux non démontrés",
+          "text": "Compilation Runtime, pont Docker → MATLAB hôte, performance multi-session, étude FAR/EER, résistance photo/vidéo et vidéo finale."
+        }
+      ]
+    },
+    {
+      "title": "Traçabilité des exigences",
+      "subtitle": "Les identifiants du premier document restent utilisables.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "ID",
+            "Exigence",
+            "État / preuve ou reste à faire"
+          ],
+          "rows": [
+            [
+              "EF-01",
+              "Pseudonyme sans email",
+              "Implémenté ; API et tests automatisés."
+            ],
+            [
+              "EF-02",
+              "Consentement avant caméra",
+              "Implémenté ; test Flutter. Permission Android réelle à confirmer."
+            ],
+            [
+              "EF-03",
+              "Répétitions 2 / 3 / 5",
+              "Garde serveur et algorithmes ; répétitions sur téléphone à tester."
+            ],
+            [
+              "EF-04",
+              "Refuser un enrôlement variable",
+              "μ + 2σ borné ; tests. Bornes à calibrer sur volontaires."
+            ],
+            [
+              "EF-05",
+              "Choisir et ordonner 1 à 3 couches",
+              "Implémenté, ordre vérifié côté serveur ; ergonomie à observer."
+            ],
+            [
+              "EF-06",
+              "Retour par trame < 300 ms",
+              "Transport réel implémenté ; cible réseau/phone non validée."
+            ],
+            [
+              "EF-07",
+              "Verdict par couche",
+              "Contrat et tests disponibles ; précision terrain non mesurée."
+            ],
+            [
+              "EF-08",
+              "3 échecs → verrou de 5 min",
+              "Implémenté ; testé avec scores contrôlés."
+            ],
+            [
+              "EF-09",
+              "JWT et mème après succès complet",
+              "Garde de séquence, JWT 15 min et ticket média ; parcours physique à vérifier."
+            ],
+            [
+              "EF-10",
+              "Diagnostics en direct",
+              "Landmarks, FPS/latence et dernier score ; pas de score de décision par trame."
+            ],
+            [
+              "EF-11",
+              "Suppression en une action",
+              "Effacement logique et révocation testés ; sauvegardes hors périmètre de cette preuve."
+            ],
+            [
+              "EF-12",
+              "Administration",
+              "API seuil/mème/journaux/purge ; aucun tableau de bord admin."
+            ]
+          ],
+          "widths": [
+            48,
+            178,
+            287
+          ]
+        },
+        {
+          "type": "note",
+          "title": "Ajouts demandés pendant la réalisation",
+          "text": "Réutilisation de MATLAB installé ; même APK pour plusieurs postes via découverte ; mème fourni et texte exact ; dépôt public, release signée, guides et cahier révisé."
+        }
+      ]
+    },
+    {
+      "title": "Mesures et critères de recette",
+      "subtitle": "Les objectifs chiffrés initiaux restent des objectifs à mesurer.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Mesure",
+            "Cible initiale",
+            "Comment la mesurer"
+          ],
+          "rows": [
+            [
+              "Cadence par session",
+              "≥ 15 images/s",
+              "Téléphone réel et build release ; sessions simultanées 1, 3 et 5."
+            ],
+            [
+              "Aller-retour par trame",
+              "< 300 ms",
+              "Temps côté téléphone ; distinguer médiane, p95 et temps d’inférence seul."
+            ],
+            [
+              "Décision après capture",
+              "< 1 s",
+              "Mesurer hors démarrage MATLAB et hors attente utilisateur."
+            ],
+            [
+              "Connexion à trois couches",
+              "< 30 s",
+              "Chronométrer l’authentification complète, avec vivacité et transitions."
+            ],
+            [
+              "EER par couche",
+              "< 10 %",
+              "Données d’évaluation séparées de l’enrôlement et de la calibration."
+            ],
+            [
+              "FAR avec trois couches",
+              "< 1 %",
+              "Tester la séquence complète ; ne pas multiplier des FAR en supposant l’indépendance."
+            ],
+            [
+              "Couverture des comparaisons",
+              "≥ 60 %",
+              "Mesurer une couverture définie ; le nombre de tests ne vaut pas pourcentage de couverture."
+            ]
+          ],
+          "widths": [
+            151,
+            106,
+            256
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Étude prévue"
+        },
+        {
+          "type": "p",
+          "text": "15 volontaires × 10 essais authentiques + 5 imitations par couche, avec consentement écrit et suppression convenue. Tester également photo, vidéo rejouée et imitation observée. Pour l’ergonomie : cinq personnes réalisent la tâche « ouvrir le coffre », chronométrée."
+        },
+        {
+          "type": "h",
+          "text": "Traces et rapport"
+        },
+        {
+          "type": "p",
+          "text": "Noter version, appareil, éclairage, couche, genuine (0/1), score et latence. scripts/evaluate.py et matlab-engine/evaluate_roc.m exploitent le CSV. Ne pas régler les seuils sur le jeu de test final. Publier ROC, EER, latences, taille d’échantillon et limites, même si les objectifs ne sont pas atteints."
+        },
+        {
+          "type": "note",
+          "title": "Pas de résultats fictifs",
+          "text": "Les mesures sur images fixes et signaux synthétiques déjà disponibles sont utiles pour le développement, mais ne remplissent pas cette recette biométrique."
+        }
+      ]
+    },
+    {
+      "title": "Dépannage pratique",
+      "subtitle": "Commencer par la santé du serveur, puis le réseau, puis la capture.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Symptôme",
+            "Action utile"
+          ],
+          "rows": [
+            [
+              "Commande ou script introuvable",
+              "Extraire le ZIP ; entrer dans le dossier contenant README.md et scripts. Après installation de uv, rouvrir PowerShell."
+            ],
+            [
+              "MATLAB non trouvé",
+              "Vérifier matlabroot dans MATLAB desktop ; fournir --matlab-root. Un dossier partiel ou Runtime seul ne suffit pas."
+            ],
+            [
+              "Erreur de licence / toolbox",
+              "Lancer MATLAB sous le même compte OS, résoudre l’activation et l’accès aux deux toolboxes ; conserver le message exact."
+            ],
+            [
+              "Téléphone : aucun poste",
+              "Health prêt, launcher ouvert, LAN partagé, règles 8443/5353, pas d’isolation invité ; contrôler la route privée utilisée en cas de VPN/interfaces multiples."
+            ],
+            [
+              "Poste trouvé, connexion refusée",
+              "Attendre le démarrage ; vérifier health. Un pin différent demande de restaurer l’identité originale ou de planifier une nouvelle association."
+            ],
+            [
+              "Port occupé",
+              "Arrêter l’ancien launcher. Ne pas lancer simultanément deux passerelles sur 8443."
+            ],
+            [
+              "Caméra / qualité",
+              "Vérifier permission, éclairage et cadrage ; fermer les autres apps caméra. Corps : inclure mains et pieds."
+            ],
+            [
+              "Signature absente / instable",
+              "Main ouverte, pince, relâchement, tracé, seconde pince. Simplifier le motif et garder un tempo reproductible."
+            ],
+            [
+              "Installation APK refusée",
+              "Android 10+ et téléchargement complet. Une version signée avec une autre clé peut nécessiter une désinstallation, qui perd le credential local."
+            ],
+            [
+              "Disque ou mémoire insuffisants",
+              "Utiliser l’APK fourni ; les outils Flutter/Gradle/SDK ne sont requis que pour recompiler. Prévoir la place pour MATLAB et les dépendances."
+            ]
+          ],
+          "widths": [
+            160,
+            353
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Si le problème persiste : fournir version du paquet, modèle Android, OS du PC, release MATLAB, mode choisi et étape exacte. Ne pas joindre de clés, .env, base privée ou images de participants."
+        }
+      ]
+    },
+    {
+      "title": "Livraison, suites et références",
+      "subtitle": "Un paquet utilisable, une spécification éditable et des critères de clôture.",
+      "blocks": [
+        {
+          "type": "table",
+          "headers": [
+            "Livrable",
+            "Contenu / statut"
+          ],
+          "rows": [
+            [
+              "APK signé",
+              "Application 0.1.3, build 3 ; archive universelle vérifiée. Essai physique à consigner."
+            ],
+            [
+              "Paquet serveur v0.1.3",
+              "Code complet, scripts d’installation/configuration, original PDF, révision 1.1, README et TESTING. Aucun secret ni produit MATLAB redistribué."
+            ],
+            [
+              "Dépôt public",
+              "FediMechergui/the-vault ; tags et releases. Sources de ce PDF et générateur fournis."
+            ],
+            [
+              "Évaluation finale",
+              "Protocole prêt ; collecte, ROC/EER, charge et tests de spoofing à effectuer."
+            ],
+            [
+              "Vidéo de démonstration",
+              "À produire : 2–3 minutes, de l’inscription à la révélation."
+            ]
+          ],
+          "widths": [
+            161,
+            352
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Prochaines étapes de recette"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Faire le test Hand seul puis Face/Body/Hand sur un téléphone physique ; noter chaque résultat.",
+            "Tester l’installation sur un second PC et la découverte après changement d’adresse.",
+            "Valider séparément le mode Docker hybride et, si retenu, la compilation Runtime.",
+            "Conduire l’étude biométrique, corriger/calibrer à partir de données séparées, puis produire rapport et vidéo."
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Documentation et sources"
+        },
+        {
+          "type": "p",
+          "text": "<link href=\"https://github.com/FediMechergui/the-vault/releases/tag/v0.1.3\">Release complète v0.1.3</link> · <link href=\"https://github.com/FediMechergui/the-vault/blob/v0.1.3/README.md\">Installation et configuration</link> · <link href=\"https://github.com/FediMechergui/the-vault/blob/v0.1.3/TESTING.md\">Guide de test</link> · <link href=\"https://github.com/FediMechergui/the-vault/blob/v0.1.3/docs/validation.md\">Preuves de validation</link>."
+        },
+        {
+          "type": "p",
+          "text": "<link href=\"https://www.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html\">MathWorks : Engine Python</link> · <link href=\"https://www.mathworks.com/support/requirements/python-compatibility.html\">Compatibilité Python/MATLAB</link> · <link href=\"https://docs.astral.sh/uv/getting-started/installation/\">Installation de uv</link>."
+        },
+        {
+          "type": "note",
+          "title": "Référence de travail",
+          "text": "Le document initial est conservé dans le dépôt. Cette édition remplace les hypothèses dépassées par un état traçable ; elle ne supprime pas les objectifs de qualité encore ouverts."
+        }
+      ]
+    },
+    {
+      "title": "Démarrage et capture : correctifs 1.3",
+      "subtitle": "Une erreur de suivi doit être expliquée ; une reprise ne valide jamais un geste insuffisant.",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Le correctif Android 0.1.2 supprime un appel involontaire à Activity.finish() après huit secondes de découverte. L’utilisateur confirme que l’application reste ouverte. Le correctif 0.1.3 traite ensuite les délais pendant la capture."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Élément",
+            "Comportement livré"
+          ],
+          "widths": [
+            140,
+            373
+          ],
+          "rows": [
+            [
+              "Traitement MediaPipe",
+              "Délai RPC de 10 s, au lieu de 3 s, pour absorber un démarrage ou un ralentissement temporaire."
+            ],
+            [
+              "Réponse caméra / commande",
+              "Message d’attente après 4 s ; arrêt explicite après 12 s sans réponse."
+            ],
+            [
+              "Erreur temporaire",
+              "La trame suivante peut rétablir le suivi ; le message disparaît après une réponse valide."
+            ],
+            [
+              "Sécurité",
+              "Les critères de qualité, répétitions, vivacité et scores MATLAB ne changent pas. Un geste incomplet reste refusé."
+            ]
+          ]
+        },
+        {
+          "type": "h",
+          "text": "Preuves et limites"
+        },
+        {
+          "type": "p",
+          "text": "39 tests Python et 10 tests Flutter réussis. Les tests de capture utilisent une caméra simulée ; un vrai transport gRPC a accepté une réponse retardée de 4,1 s. Sur le serveur actif, une première trame blanche a échoué, puis 20 trames ont abouti. Cela démontre un incident intermittent, sans établir sa cause exacte sur le téléphone."
+        },
+        {
+          "type": "h",
+          "text": "Mise à jour et essai"
+        },
+        {
+          "type": "p",
+          "text": "Installer le nouvel APK par-dessus l’ancien. Pour le PC existant, utiliser scripts/update-capture-server.ps1 depuis le nouveau ZIP : sauvegarde des fichiers modifiés, conservation des clés, du compte et de MATLAB. Redémarrer le serveur, puis tester une capture main seule ; relever le message exact en cas d’échec."
+        },
+        {
+          "type": "note",
+          "title": "Recette à poursuivre",
+          "text": "La recette physique de la capture sur Vivo Y04, les performances réseau et les mesures biométriques restent à consigner. Consulter README.md, TESTING.md et docs/capture-recovery.md."
+        }
+      ]
+    }
+  ]
+}

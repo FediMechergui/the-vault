@@ -6,19 +6,34 @@ This repository contains the Android app, the PC server, real MediaPipe tracking
 
 ## Download the right files
 
-**[Release v0.1.2 — Android startup fix](https://github.com/FediMechergui/the-vault/releases/tag/v0.1.2)** contains:
+**[Release v0.1.3 — capture recovery](https://github.com/FediMechergui/the-vault/releases/tag/v0.1.3)** contains:
 
 | Download | Put it on | What it does |
 | --- | --- | --- |
-| [Android APK](https://github.com/FediMechergui/the-vault/releases/download/v0.1.2/the-vault-v0.1.2.apk) | Your Android phone | Installable, signed app; about 52 MB; Android 10+; fixes the automatic exit after discovery |
-| [Server and complete source ZIP](https://github.com/FediMechergui/the-vault/releases/download/v0.1.2/the-vault-server-v0.1.2.zip) | Your PC | Services, MATLAB functions, setup scripts and all documentation |
-| [Revised specification PDF](docs/THE_VAULT_Cahier_des_charges_v1.1.pdf) | Either device | French specification reflecting the implementation, changes and remaining acceptance work |
-| [Testing guide](TESTING.md) | Either device | Simple steps, expected results, troubleshooting and a result checklist |
+| [Android APK](https://github.com/FediMechergui/the-vault/releases/download/v0.1.3/the-vault-v0.1.3.apk) | Android phone | Signed app, version 0.1.3 / build 3; Android 10+ |
+| [Server and complete source ZIP](https://github.com/FediMechergui/the-vault/releases/download/v0.1.3/the-vault-server-v0.1.3.zip) | PC | Server, MATLAB functions, setup and update scripts, source and guides |
+| [Revised specification PDF](docs/THE_VAULT_Cahier_des_charges_v1.3.pdf) | Either | French specification, including startup and capture changes |
+| [Testing guide](TESTING.md) | Either | Simple checks, expected results and troubleshooting |
 | `SHA256SUMS.txt` in the release | Optional verification | Hashes of the attached files |
 
-The Android application is **v0.1.2, build 2**. Update the APK if you have v0.1.0: its eight-second discovery timer accidentally called Android's screen-closing method. The corrected APK is compatible with the **v0.1.1 server**, so an existing server installation can stay in place. Install the update over the old APK to preserve the app's saved pairing and credentials.
+Install the APK over your existing app to retain its saved pairing and credentials. It includes the v0.1.2 startup-exit fix and now tolerates short capture delays, clears recovered tracking errors and reports failure categories. See [the capture update notes](docs/capture-recovery.md).
 
-The revised specification remains **document edition 1.1**, describing the earlier baseline. This small Android patch is recorded separately in [the startup-fix notes](docs/android-startup-fix.md); the server architecture and MATLAB algorithms are unchanged.
+## Update an existing PC server
+
+For an existing v0.1.0–v0.1.2 server, keep its installation folder, data and certificates. Download and extract the v0.1.3 source ZIP into a **separate folder**. Stop the existing server with **Ctrl+C**, then run this from the newly extracted folder, substituting your existing server path:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\update-capture-server.ps1 -ServerPath 'D:\THE-VAULT-v0.1.1\the-vault'
+```
+
+The updater checks the existing files, backs them up under `.local/server-backups`, and updates three gateway files. It stops if it finds local code edits. It preserves `.env`, certificates, `.local/vault.db`, models, `.venv` and MATLAB settings. Restart the server **from its original folder** using your usual command:
+
+```powershell
+Set-Location 'D:\THE-VAULT-v0.1.1\the-vault'
+& .\.venv\Scripts\python.exe .\scripts\start.py --local --backend matlab-engine
+```
+
+Keep any `--matlab-root` argument your installation needs. The APK remains compatible with older servers, but installing this server patch also gives gesture processing its longer deadline and clearer diagnostics. Fresh installations should follow the steps below.
 
 ## Before you start
 

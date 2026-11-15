@@ -1,0 +1,19 @@
+{
+  "build_source": "493b437c4ce4933466b4721db03ac85752d2e83f",
+  "ci": "https://github.com/FediMechergui/the-vault/actions/runs/43745668674",
+  "python_tests_passed": 39,
+  "flutter_tests_passed": 10,
+  "android_discovery_tests_passed": 4,
+  "capture_widget_tests_use_simulated_camera_and_server": true,
+  "real_grpc_slow_reply_seconds": 4.1,
+  "original_server_probe": {
+    "initial_frame": "Vision service unavailable",
+    "subsequent_successful_frames": 20,
+    "round_trip_ms_min": 33.2,
+    "round_trip_ms_max": 500.0,
+    "input": "in-memory blank JPEG",
+    "temporary_account_deleted": true
+  },
+  "physical_updated_phone_capture": "pending",
+  "first_original_failure_exception": "not exposed by original server; exact cause unconfirmed"
+}

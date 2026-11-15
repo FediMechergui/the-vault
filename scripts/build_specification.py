@@ -208,7 +208,7 @@ def cover(c, spec, total):
     c.setFont('Vault', 21)
     c.drawString(MARGIN, 504, 'Cahier des charges')
     c.setFillColor(LIME)
-    c.drawString(MARGIN, 473, 'Édition révisée 1.1')
+    c.drawString(MARGIN, 473, f"Édition révisée {spec['revision']}")
     c.setFillColor(colors.white)
     c.setFont('Vault', 11)
     for y, line in [(414, 'Visage. Mouvement du corps. Signature aérienne.'),
@@ -245,7 +245,7 @@ def build(source: Path, output: Path):
     total = len(spec['pages']) + 1
     output.parent.mkdir(parents=True, exist_ok=True)
     c = canvas.Canvas(str(output), pagesize=A4, pageCompression=1, invariant=1)
-    c.setTitle('THE VAULT — Cahier des charges révisé 1.1')
+    c.setTitle(f"THE VAULT — Cahier des charges révisé {spec['revision']}")
     c.setAuthor('THE VAULT project')
     c.setSubject('Architecture, installation, configuration, validation et écarts au plan initial')
     c.setCreator('scripts/build_specification.py / ReportLab')
@@ -291,8 +291,8 @@ def build(source: Path, output: Path):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', type=Path,
-                        default=ROOT / 'docs/specification/specification-v1.1.json')
+                        default=ROOT / 'docs/specification/specification-v1.3.json')
     parser.add_argument('--output', type=Path,
-                        default=ROOT / 'docs/THE_VAULT_Cahier_des_charges_v1.1.pdf')
+                        default=ROOT / 'docs/THE_VAULT_Cahier_des_charges_v1.3.pdf')
     args = parser.parse_args()
     build(args.source, args.output)
