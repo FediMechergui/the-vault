@@ -6,17 +6,19 @@ This repository contains the Android app, the PC server, real MediaPipe tracking
 
 ## Download the right files
 
-**[Release v0.1.1 — documentation update](https://github.com/FediMechergui/the-vault/releases/tag/v0.1.1)** contains:
+**[Release v0.1.2 — Android startup fix](https://github.com/FediMechergui/the-vault/releases/tag/v0.1.2)** contains:
 
 | Download | Put it on | What it does |
 | --- | --- | --- |
-| [Android APK](https://github.com/FediMechergui/the-vault/releases/download/v0.1.1/the-vault-v0.1.0.apk) | Your Android phone | Installable, signed app; about 52 MB; Android 10+ |
-| [Server and complete source ZIP](https://github.com/FediMechergui/the-vault/releases/download/v0.1.1/the-vault-server-v0.1.1.zip) | Your PC | Services, MATLAB functions, setup scripts and all documentation |
+| [Android APK](https://github.com/FediMechergui/the-vault/releases/download/v0.1.2/the-vault-v0.1.2.apk) | Your Android phone | Installable, signed app; about 52 MB; Android 10+; fixes the automatic exit after discovery |
+| [Server and complete source ZIP](https://github.com/FediMechergui/the-vault/releases/download/v0.1.2/the-vault-server-v0.1.2.zip) | Your PC | Services, MATLAB functions, setup scripts and all documentation |
 | [Revised specification PDF](docs/THE_VAULT_Cahier_des_charges_v1.1.pdf) | Either device | French specification reflecting the implementation, changes and remaining acceptance work |
 | [Testing guide](TESTING.md) | Either device | Simple steps, expected results, troubleshooting and a result checklist |
 | `SHA256SUMS.txt` in the release | Optional verification | Hashes of the attached files |
 
-The documentation/package release is **v0.1.1**; the Android application remains **v0.1.0, build 1**, with the same verified APK. Existing users do not need to reinstall the app for this documentation update.
+The Android application is **v0.1.2, build 2**. Update the APK if you have v0.1.0: its eight-second discovery timer accidentally called Android's screen-closing method. The corrected APK is compatible with the **v0.1.1 server**, so an existing server installation can stay in place. Install the update over the old APK to preserve the app's saved pairing and credentials.
+
+The revised specification remains **document edition 1.1**, describing the earlier baseline. This small Android patch is recorded separately in [the startup-fix notes](docs/android-startup-fix.md); the server architecture and MATLAB algorithms are unchanged.
 
 ## Before you start
 

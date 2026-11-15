@@ -1,3 +1,11 @@
+# Android startup fix — 15 November 2026
+
+The original APK's compiled DEX confirmed that the eight-second discovery timer invoked `android.app.Activity.finish()`, closing the app without requiring a tap or a server connection. The completion helper has been renamed to `completeDiscovery`; see [the cause and update instructions](android-startup-fix.md).
+
+The [v0.1.2 Android build](https://github.com/FediMechergui/the-vault/actions/runs/43740421634) passed Flutter analysis, the existing five Flutter tests and four native discovery regression tests on Robolectric's Android 14 framework. The native network-discovery service is mocked; its [test result record](android-discovery-regression-v0.1.2.json) is retained. Inspection of the signed APK confirmed that the discovery timer's screen-closing call is absent. Physical-phone startup, connection and gesture retesting remains necessary. APK signature, upgrade compatibility and alignment verification are recorded in [apk-verification-v0.1.2.json](apk-verification-v0.1.2.json).
+
+Server v0.1.1 remains compatible. This patch does not change the MATLAB algorithms or claim new camera, biometric accuracy or performance results. The specification PDF stays at document edition 1.1; the Android change is recorded in the patch notes above.
+
 # Validation update — 14 November 2026
 
 Documentation release **v0.1.1** adds a revised 22-page French specification, an installation/configuration README and a physical-phone test guide. The PDF was rendered for visual review; checks confirmed all source text, 22 bookmarks, 21 contents links and text within page boundaries. Local guide links and documented launcher flags were checked. This documentation update reuses the signed **0.1.0 / build 1** APK with the same SHA-256; it does not claim new app or physical-phone test results.

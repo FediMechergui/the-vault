@@ -6,6 +6,10 @@ Use this after the [installation steps](README.md#windows-install-once). Start w
 
 ## 1. Check the server and phone connection
 
+Use **APK v0.1.2 or newer**. The original v0.1.0 APK closed its Android activity at the end of the eight-second discovery timer. The v0.1.1 release also bundled that old APK. Update the phone app; server v0.1.1 remains compatible.
+
+For the startup regression, leave the app open without tapping anything for **30 seconds**. It must stay open with the server available and with the server stopped. Start the server again, then run **Find my computer** twice; each search must finish without closing the app. A missing server should produce guidance, not an automatic exit. This is a physical-phone check to perform, not a claim that your phone has already passed it.
+
 1. Open desktop MATLAB as the same user who will start the server. Resolve any activation dialog.
 2. In the project folder, start:
 

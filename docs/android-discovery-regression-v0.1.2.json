@@ -1,0 +1,23 @@
+{
+  "ci_run": "https://github.com/FediMechergui/the-vault/actions/runs/43740421634",
+  "application_source_commit": "4b69c5780264dca1505f9565a83434187e8a43d7",
+  "native_test_report": {
+    "name": "dev.thevault.the_vault.MainActivityDiscoveryTest",
+    "tests": "4",
+    "skipped": "0",
+    "failures": "0",
+    "errors": "0",
+    "timestamp": "2026-11-15T17:24:18.311Z",
+    "hostname": "runnervmccnms",
+    "time": "5.876"
+  },
+  "tests": [
+    "startFailureReportsAnErrorWithoutClosingTheActivity",
+    "emptyDiscoveryCompletesWithoutClosingTheActivity",
+    "resolvedComputerIsReturnedWhenTheTimerExpires",
+    "discoveryCanRunAgainAfterItsFirstTimeout"
+  ],
+  "framework": "Robolectric Android 14 (SDK 34), mocked Android NSD service",
+  "signed_apk_bytecode_check": "The Activity.finish() discovery timer call present in v0.1.0 is absent in v0.1.2.",
+  "physical_phone_retest": "pending"
+}

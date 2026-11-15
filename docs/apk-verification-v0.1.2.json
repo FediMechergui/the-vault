@@ -1,0 +1,17 @@
+{
+  "artifact": "the-vault-v0.1.2.apk",
+  "bytes": 52054207,
+  "sha256": "eb72bf0253745a194cb0b8efcde7e92cff843188d5d990817c49cbe630aeeaa0",
+  "signature_verified": true,
+  "same_signing_certificate_as_v0_1_0": true,
+  "certificate_sha256": "ecc3b555edeea260747ba5df938c9fb9e49fae5df366a1479457da27781e878a",
+  "alignment_16k_verified": true,
+  "metadata": [
+    "package: name='dev.thevault.the_vault' versionCode='2' versionName='0.1.2' platformBuildVersionName='16' platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'",
+    "sdkVersion:'29'",
+    "targetSdkVersion:'36'",
+    "application-label:'THE VAULT'",
+    "native-code: 'arm64-v8a' 'armeabi-v7a' 'x86_64'"
+  ],
+  "physical_phone_retest": "pending"
+}
