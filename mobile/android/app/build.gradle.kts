@@ -1,4 +1,6 @@
 import java.util.Properties
+import com.android.build.api.variant.HasHostTestsBuilder
+import com.android.build.api.variant.HostTestBuilder
 
 plugins {
     id("com.android.application")
@@ -72,7 +74,7 @@ androidComponents {
     // AGP only enables unit tests for the tested build type by default.
     // Exercise the same release activity that is shipped in the APK.
     beforeVariants(selector().withBuildType("release")) {
-        it.enableUnitTest = true
+        (it as HasHostTestsBuilder).hostTests.getValue(HostTestBuilder.UNIT_TEST_TYPE).enable = true
     }
 }
 
