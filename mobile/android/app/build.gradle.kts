@@ -8,6 +8,7 @@ plugins {
 }
 
 val signingProperties = Properties()
+val mockitoAgent by configurations.creating
 val signingPropertiesFile = rootProject.file("key.properties")
 if (signingPropertiesFile.exists()) {
     signingPropertiesFile.inputStream().use { signingProperties.load(it) }
@@ -54,6 +55,21 @@ android {
             signingConfig = signingConfigs.getByName(if (signingPropertiesFile.exists()) "release" else "debug")
         }
     }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
+}
+
+dependencies {
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.robolectric:robolectric:4.17")
+    testImplementation("org.mockito:mockito-core:5.24.0")
+    mockitoAgent("org.mockito:mockito-core:5.24.0") { isTransitive = false }
+}
+
+tasks.withType<Test>().configureEach {
+    jvmArgs("-javaagent:${mockitoAgent.asPath}")
 }
 
 kotlin {

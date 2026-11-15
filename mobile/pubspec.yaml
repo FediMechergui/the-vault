@@ -1,7 +1,7 @@
 name: the_vault
 description: "Maximum security. Minimum secret. A real-time biometric ritual."
 publish_to: none
-version: 0.1.0+1
+version: 0.1.2+2
 environment:
   sdk: ^3.14.0
 dependencies:

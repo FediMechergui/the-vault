@@ -43,7 +43,7 @@ class MainActivity : FlutterActivity() {
             override fun onDiscoveryStopped(type: String) {}
             override fun onStopDiscoveryFailed(type: String, code: Int) {}
             override fun onStartDiscoveryFailed(type: String, code: Int) {
-                handler.post { if (current == generation) finish("Local discovery could not start. Check Wi-Fi.") }
+                handler.post { if (current == generation) completeDiscovery("Local discovery could not start. Check Wi-Fi.") }
             }
             override fun onServiceLost(info: NsdServiceInfo) {}
             override fun onServiceFound(info: NsdServiceInfo) {
@@ -58,9 +58,9 @@ class MainActivity : FlutterActivity() {
         }
         try {
             nsd.discoverServices("_thevault._tcp.", NsdManager.PROTOCOL_DNS_SD, listener)
-            handler.postDelayed({ if (current == generation) finish() }, 8000)
+            handler.postDelayed({ if (current == generation) completeDiscovery() }, 8000)
         } catch (e: Exception) {
-            finish("Local discovery is unavailable. Check network permissions.")
+            completeDiscovery("Local discovery is unavailable. Check network permissions.")
         }
     }
 
@@ -94,7 +94,9 @@ class MainActivity : FlutterActivity() {
         })
     }
 
-    private fun finish(error: String? = null) {
+    // Do not name this finish: Activity.finish() wins overload resolution for
+    // a no-argument call and closes the app when the discovery timer expires.
+    private fun completeDiscovery(error: String? = null) {
         val result = pending ?: return
         pending = null
         generation++
@@ -106,7 +108,7 @@ class MainActivity : FlutterActivity() {
     }
 
     override fun onDestroy() {
-        finish("Discovery stopped")
+        completeDiscovery("Discovery stopped")
         super.onDestroy()
     }
 }

@@ -37,6 +37,18 @@ jobs:
           flutter analyze
           flutter test
           flutter build apk --release
+      - name: Check Android discovery timeout and results
+        working-directory: mobile/android
+        run: ./gradlew :app:testReleaseUnitTest --no-daemon
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-discovery-test-results
+          path: |
+            mobile/build/app/reports/tests/testReleaseUnitTest/
+            mobile/build/app/test-results/testReleaseUnitTest/
+          if-no-files-found: ignore
+          retention-days: 14
       - uses: actions/upload-artifact@v4
         with:
           name: the-vault-universal-apk
