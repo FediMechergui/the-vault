@@ -68,6 +68,14 @@ dependencies {
     mockitoAgent("org.mockito:mockito-core:5.24.0") { isTransitive = false }
 }
 
+androidComponents {
+    // AGP only enables unit tests for the tested build type by default.
+    // Exercise the same release activity that is shipped in the APK.
+    beforeVariants(selector().withBuildType("release")) {
+        it.enableUnitTest = true
+    }
+}
+
 tasks.withType<Test>().configureEach {
     jvmArgs("-javaagent:${mockitoAgent.asPath}")
 }

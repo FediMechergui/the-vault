@@ -29,17 +29,19 @@ jobs:
         uses: android-actions/setup-android@v3
         with:
           packages: 'platform-tools platforms;android-36 build-tools;36.0.0 ndk;28.2.13676358'
-      - name: Validate and build
+      - name: Validate Flutter
         working-directory: mobile
         run: |
           flutter config --no-analytics
           flutter pub get
           flutter analyze
           flutter test
-          flutter build apk --release
       - name: Check Android discovery timeout and results
         working-directory: mobile/android
         run: ./gradlew :app:testReleaseUnitTest --no-daemon
+      - name: Build release APK
+        working-directory: mobile
+        run: flutter build apk --release
       - uses: actions/upload-artifact@v4
         if: always()
         with:
