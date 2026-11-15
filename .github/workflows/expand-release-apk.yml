@@ -1,0 +1,60 @@
+name: Expand signed APK upload
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Draft release tag containing the compressed signed APK
+        required: true
+      sha256:
+        description: Expected SHA-256 of the original signed APK
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  expand:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: ${{ inputs.tag }}
+      EXPECTED_SHA256: ${{ inputs.sha256 }}
+    steps:
+      - name: Validate inputs and require a draft release
+        run: |
+          python - <<'PY'
+          import os, re
+          assert re.fullmatch(r'v\d+\.\d+\.\d+', os.environ['RELEASE_TAG'])
+          assert re.fullmatch(r'[a-f0-9]{64}', os.environ['EXPECTED_SHA256'])
+          PY
+          test "$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft --jq .isDraft)" = true
+      - name: Download and verify the already signed APK
+        run: |
+          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --pattern "the-vault-$RELEASE_TAG.apk.zip" --dir "$RUNNER_TEMP/apk-upload"
+          python - <<'PY'
+          import hashlib, os, pathlib, zipfile
+          folder = pathlib.Path(os.environ['RUNNER_TEMP']) / 'apk-upload'
+          name = f"the-vault-{os.environ['RELEASE_TAG']}.apk"
+          with zipfile.ZipFile(folder / (name + '.zip')) as archive:
+              assert archive.namelist() == [name]
+              data = archive.read(name)
+          assert hashlib.sha256(data).hexdigest() == os.environ['EXPECTED_SHA256']
+          (folder / name).write_bytes(data)
+          print(f'Original APK digest verified: {len(data)} bytes')
+          PY
+      - name: Upload original APK and verify GitHub digest
+        run: |
+          gh release upload "$RELEASE_TAG" "$RUNNER_TEMP/apk-upload/the-vault-$RELEASE_TAG.apk" --repo "$GITHUB_REPOSITORY" --clobber
+          gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json assets > "$RUNNER_TEMP/apk-assets.json"
+          python - <<'PY'
+          import json, os, pathlib
+          data = json.loads((pathlib.Path(os.environ['RUNNER_TEMP']) / 'apk-assets.json').read_text())
+          name = f"the-vault-{os.environ['RELEASE_TAG']}.apk"
+          asset = next(a for a in data['assets'] if a['name'] == name)
+          assert asset['state'] == 'uploaded'
+          assert asset['digest'] == 'sha256:' + os.environ['EXPECTED_SHA256']
+          print('Uploaded original signed APK verified; release remains draft.')
+          PY
+          gh release delete-asset "$RELEASE_TAG" "the-vault-$RELEASE_TAG.apk.zip" --repo "$GITHUB_REPOSITORY" --yes
