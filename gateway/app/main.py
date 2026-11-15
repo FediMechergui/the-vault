@@ -6,6 +6,7 @@ import hashlib
 import hmac
 import io
 import json
+import logging
 import secrets
 import struct
 import time
@@ -26,6 +27,9 @@ from .config import Settings
 from .storage import Database, User, Template, Attempt, Setting, VaultItem
 from .state import SessionStore, new_state, reset_capture, capture_payload, observe_liveness
 from .media import MediaStore
+from .errors import VisionFailure
+
+logger = logging.getLogger('thevault.capture')
 
 Layer = Literal["face", "body", "hand"]
 
@@ -385,8 +389,17 @@ def create_app(config=None, vision=None, scorer=None):
                     started = time.perf_counter()
                     try:
                         data = await vision.extract(sid, layer, blob[12:], timestamp)
-                    except Exception:
-                        await ws.send_json({"type": "error", "message": "Vision service unavailable"})
+                    except VisionFailure as exc:
+                        logger.warning('Capture processing failed: layer=%s code=%s', layer, exc.code)
+                        await ws.send_json({"type": "error", "code": exc.code,
+                            "frame_id": frame_id, "retryable": exc.retryable, "message": str(exc)})
+                        continue
+                    except Exception as exc:
+                        # Record the failure category, never images, landmarks or credentials.
+                        logger.warning('Capture processing failed: layer=%s error=%s', layer, type(exc).__name__)
+                        await ws.send_json({"type": "error", "code": "vision_unavailable",
+                            "frame_id": frame_id, "retryable": True,
+                            "message": "Gesture tracking on the PC is unavailable. Check its terminal; retrying the next frame."})
                         continue
                     del blob
                     if data.get("quality", False):

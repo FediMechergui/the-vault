@@ -185,6 +185,42 @@ def test_liveness_needs_complete_random_action_and_depth():
     assert observe_liveness(state, {'depth_ok': True, 'yaw': -.4})
 
 
+@pytest.mark.parametrize('failure', ['timeout', 'unexpected'])
+def test_transient_vision_failure_keeps_stream_open_and_recovers(env, monkeypatch, failure):
+    from gateway.app.errors import VisionFailure
+    original = FakeVision.extract
+    calls = 0
+
+    async def flaky(self, *args):
+        nonlocal calls
+        calls += 1
+        if calls == 1:
+            if failure == 'timeout':
+                raise VisionFailure('vision_timeout', 'Gesture processing took too long.')
+            raise RuntimeError('internal detail must not reach the phone')
+        return await original(self, *args)
+
+    monkeypatch.setattr(FakeVision, 'extract', flaky)
+    client, app, _ = env
+    account, headers = user(client)
+    session = client.post('/api/v1/enroll/hand/start', headers=headers,
+        json={'user_id': account['id']}).json()
+    with client.websocket_connect('/ws/stream/' + session['session_id']) as ws:
+        ws.send_json({'token': session['session_token']})
+        assert ws.receive_json()['type'] == 'ready'
+        ws.send_bytes(struct.pack('>IQ', 1, 1000) + b'00000000')
+        error = ws.receive_json()
+        assert error['type'] == 'error' and error['retryable'] is True
+        assert error['code'] == ('vision_timeout' if failure == 'timeout' else 'vision_unavailable')
+        assert 'internal detail' not in json.dumps(error)
+        ws.send_bytes(struct.pack('>IQ', 2, 1200) + b'00000000')
+        result = ws.receive_json()
+        assert result['type'] == 'tracking' and result['quality'] is True
+        assert result['frame_id'] == 2
+    state = client.portal.call(app.state.sessions.get, session['session_id'])
+    assert state['captures'] == []  # Recovery must never enroll or accept a failed take.
+
+
 def test_session_expiration(env):
     client, app, _ = env
     account, headers = user(client)

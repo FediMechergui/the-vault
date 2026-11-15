@@ -10,6 +10,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'api.dart';
 import 'design.dart';
 import 'frame_encoder.dart';
+import 'response_deadline.dart';
 import 'screens.dart' show demoMode;
 
 class CaptureScreen extends StatefulWidget {
@@ -31,7 +32,8 @@ class _CaptureScreenState extends State<CaptureScreen>
   CameraController? camera;
   WebSocketChannel? socket;
   StreamSubscription? subscription;
-  Timer? frameTimer, captureTimer, watchdog;
+  Timer? frameTimer, captureTimer;
+  late final ResponseDeadline frameDeadline, commandDeadline;
   Future<void>? cameraShutdown;
   late Map<String, dynamic> challenge;
   Map<String, dynamic> tracking = {};
@@ -49,6 +51,8 @@ class _CaptureScreenState extends State<CaptureScreen>
   final Stopwatch captureWatch = Stopwatch();
   double progress = 0, roundTrip = 0;
   String? error;
+  String? streamNotice;
+  bool transientTrackingError = false;
   String? lastScore;
   String get layer => challenge['layer'] as String;
   String get sid => widget.session['session_id'];
@@ -59,8 +63,24 @@ class _CaptureScreenState extends State<CaptureScreen>
     WidgetsBinding.instance.addObserver(this);
     challenge = Map<String, dynamic>.from(widget.session['challenge']);
     live = challenge['liveness'] == null;
+    frameDeadline = _deadline('gesture tracking');
+    commandDeadline = _deadline('the capture command');
     _initialize();
   }
+
+  ResponseDeadline _deadline(String operation) => ResponseDeadline(
+    onSlow: () {
+      if (mounted && !stopped) {
+        setState(
+          () => streamNotice = 'Waiting for $operation… Keep the app open.',
+        );
+      }
+    },
+    onExpired: () => _fail(
+      'Your computer did not reply to $operation within 12 seconds. '
+      'Go back and start a fresh take. Check the PC terminal if it happens again.',
+    ),
+  );
 
   Future<void> _initialize() async {
     try {
@@ -98,12 +118,18 @@ class _CaptureScreenState extends State<CaptureScreen>
         await socket?.sink.close();
         return;
       }
+      commandDeadline.start();
       subscription = socket!.stream.listen(
         _message,
         onError: (Object e) => _fail(friendlyError(e)),
         onDone: () {
           if (!stopped) {
-            _fail('Session disconnected. Go back and start a fresh challenge.');
+            final code = socket?.closeCode;
+            _fail(
+              code == 1008
+                  ? 'This capture session expired or was reset on the PC. Go back and start a fresh take.'
+                  : 'The camera stream closed${code == null ? '' : ' (code $code)'}. Go back and start a fresh take.',
+            );
           }
         },
       );
@@ -116,12 +142,6 @@ class _CaptureScreenState extends State<CaptureScreen>
         await controller.startImageStream(_nativeFrame);
       }
       if (!mounted || stopped) return;
-      watchdog = Timer.periodic(const Duration(seconds: 1), (_) {
-        if (awaiting &&
-            DateTime.now().millisecondsSinceEpoch - lastSent > 4000) {
-          _fail('The server is taking too long. Go back and try again.');
-        }
-      });
       setState(() {});
     } on CameraException catch (e) {
       _fail(
@@ -190,17 +210,33 @@ class _CaptureScreenState extends State<CaptureScreen>
     header.setUint64(4, lastSent);
     bytes.setRange(12, bytes.length, jpeg);
     awaiting = true;
+    frameDeadline.start();
     socket!.sink.add(bytes);
   }
 
   void _message(dynamic raw) {
     if (!mounted || stopped) return;
+    try {
+      _handleMessage(raw);
+    } catch (_) {
+      _fail(
+        'The PC sent an invalid tracking response. Update the server and start a fresh take.',
+      );
+    }
+  }
+
+  void _handleMessage(dynamic raw) {
     final message = jsonDecode(raw as String) as Map<String, dynamic>;
     switch (message['type']) {
       case 'ready':
+        commandDeadline.cancel();
         setState(() => ready = true);
         break;
       case 'tracking':
+        frameDeadline.cancel();
+        streamNotice = null;
+        if (transientTrackingError) error = null;
+        transientTrackingError = false;
         awaiting = false;
         received++;
         roundTrip =
@@ -230,6 +266,8 @@ class _CaptureScreenState extends State<CaptureScreen>
         setState(() {});
         break;
       case 'capturing':
+        commandDeadline.cancel();
+        streamNotice = null;
         capturing = true;
         deciding = false;
         drawn = false;
@@ -253,6 +291,8 @@ class _CaptureScreenState extends State<CaptureScreen>
         setState(() {});
         break;
       case 'captured':
+        commandDeadline.cancel();
+        streamNotice = null;
         capturing = false;
         deciding = false;
         completed = message['completed'];
@@ -268,6 +308,9 @@ class _CaptureScreenState extends State<CaptureScreen>
         }
         break;
       case 'quality_error':
+        commandDeadline.cancel();
+        streamNotice = null;
+        transientTrackingError = false;
         captureTimer?.cancel();
         captureWatch.stop();
         setState(() {
@@ -279,13 +322,22 @@ class _CaptureScreenState extends State<CaptureScreen>
         });
         break;
       case 'error':
+        frameDeadline.cancel();
+        commandDeadline.cancel();
+        streamNotice = null;
+        transientTrackingError =
+            message['retryable'] == true ||
+            message['message'] == 'Vision service unavailable';
         awaiting = false;
         setState(() {
-          error = message['message'];
+          error = message['message'] == 'Vision service unavailable'
+              ? 'Gesture tracking on the PC is temporarily unavailable. Retrying the next frame…'
+              : message['message'];
           deciding = false;
         });
         break;
       case 'dropped':
+        frameDeadline.cancel();
         awaiting = false;
         break;
     }
@@ -309,6 +361,7 @@ class _CaptureScreenState extends State<CaptureScreen>
       countdown = 0;
       deciding = true;
     });
+    commandDeadline.start();
     socket!.sink.add(jsonEncode({'type': 'begin'}));
   }
 
@@ -318,6 +371,7 @@ class _CaptureScreenState extends State<CaptureScreen>
     captureWatch.stop();
     capturing = false;
     deciding = true;
+    commandDeadline.start();
     socket?.sink.add(jsonEncode({'type': 'finish'}));
     if (mounted) setState(() {});
   }
@@ -409,7 +463,8 @@ class _CaptureScreenState extends State<CaptureScreen>
   Future<void> _releaseCamera() async {
     frameTimer?.cancel();
     captureTimer?.cancel();
-    watchdog?.cancel();
+    frameDeadline.cancel();
+    commandDeadline.cancel();
     final controller = camera;
     camera = null;
     if (controller?.value.isStreamingImages == true) {
@@ -417,9 +472,22 @@ class _CaptureScreenState extends State<CaptureScreen>
         await controller!.stopImageStream();
       } catch (_) {}
     }
-    await controller?.dispose();
-    await subscription?.cancel();
-    await socket?.sink.close();
+    // A camera-plugin disposal error must not prevent socket cleanup or become
+    // an unhandled asynchronous exception while leaving the capture screen.
+    try {
+      await controller?.dispose();
+    } catch (_) {}
+    // Start both operations: stream cancellation can wait for its transport.
+    // It must not prevent us from initiating that transport's close.
+    final closing = () async {
+      try {
+        await socket?.sink.close();
+      } catch (_) {}
+    }();
+    try {
+      await subscription?.cancel();
+    } catch (_) {}
+    await closing;
   }
 
   @override
@@ -588,7 +656,8 @@ class _CaptureScreenState extends State<CaptureScreen>
                                         const SizedBox(width: 8),
                                         Expanded(
                                           child: Text(
-                                            tracking['message'] ??
+                                            streamNotice ??
+                                                tracking['message'] ??
                                                 'Waiting for camera tracking…',
                                             style: const TextStyle(
                                               fontSize: 11,

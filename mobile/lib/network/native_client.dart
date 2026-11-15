@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
@@ -9,6 +10,7 @@ Future<HttpClient> _trustedClient(String? fingerprint) async {
   final client = HttpClient(
     context: SecurityContext(withTrustedRoots: fingerprint == null),
   );
+  client.connectionTimeout = const Duration(seconds: 10);
   if (fingerprint != null) {
     // With no system roots, every discovered server must match its saved pin.
     client.badCertificateCallback = (certificate, host, port) =>
@@ -22,9 +24,31 @@ Future<HttpClient> _trustedClient(String? fingerprint) async {
 Future<IOClient> createClient({String? fingerprint}) async =>
     IOClient(await _trustedClient(fingerprint));
 Future<WebSocketChannel> connectSocket(Uri uri, {String? fingerprint}) async {
-  final socket = await WebSocket.connect(
-    uri.toString(),
-    customClient: await _trustedClient(fingerprint),
-  );
-  return IOWebSocketChannel(socket);
+  final client = await _trustedClient(fingerprint);
+  try {
+    final socket = await WebSocket.connect(uri.toString(), customClient: client)
+        .timeout(
+          const Duration(seconds: 12),
+          onTimeout: () {
+            throw TimeoutException('Opening the camera stream timed out');
+          },
+        );
+    return IOWebSocketChannel(socket);
+  } catch (_) {
+    client.close(force: true);
+    rethrow;
+  }
+}
+
+String? transportError(Object error) {
+  if (error is HandshakeException) {
+    return 'The secure connection could not verify the PC certificate. Check both devices’ date and time, then find your paired computer again.';
+  }
+  if (error is SocketException) {
+    return 'The PC connection failed${error.osError == null ? '' : ' (network code ${error.osError!.errorCode})'}. Keep the server running and check the Wi-Fi connection.';
+  }
+  if (error is WebSocketException) {
+    return 'The PC could not open the camera stream. Check the server terminal and start a fresh take.';
+  }
+  return null;
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -133,9 +134,10 @@ class VaultApi {
     if (credential != null) req.headers['Authorization'] = 'Bearer $credential';
     if (sessionToken != null) req.headers['X-Session-Token'] = sessionToken;
     if (data != null) req.body = jsonEncode(data);
-    final response = await http.Response.fromStream(
-      await client.send(req).timeout(const Duration(seconds: 20)),
-    );
+    final response = await client
+        .send(req)
+        .then(http.Response.fromStream)
+        .timeout(const Duration(seconds: 20));
     final body = response.body.isEmpty
         ? <String, dynamic>{}
         : jsonDecode(response.body) as Map<String, dynamic>;
@@ -237,5 +239,16 @@ class VaultException implements Exception {
 
 String friendlyError(Object error) {
   if (error is VaultException) return error.message;
-  return 'Connection interrupted. Keep THE VAULT running on your computer, join the same Wi-Fi, then tap Find my computer in Settings.';
+  if (error is TimeoutException) {
+    return 'The PC took too long to respond. Check its server terminal, then retry. Your take was not confirmed.';
+  }
+  final transport = transportError(error);
+  if (transport != null) return transport;
+  if (error is http.ClientException || error is WebSocketChannelException) {
+    return 'The PC connection was interrupted. Keep the server running, check Wi-Fi, then start a fresh take.';
+  }
+  if (error is FormatException) {
+    return 'The PC returned an unreadable response. Check its server terminal and update the server.';
+  }
+  return 'Could not complete this action (${error.runtimeType}). Go back and retry.';
 }

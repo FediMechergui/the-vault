@@ -3,6 +3,7 @@ import ssl
 import httpx
 import grpc
 from contracts import vision_pb2 as pb, vision_pb2_grpc as rpc
+from .errors import VisionFailure
 
 
 class VisionClient:
@@ -11,8 +12,20 @@ class VisionClient:
         self.stub = rpc.VisionStub(self.channel)
 
     async def extract(self, sid, layer, jpeg, timestamp):
-        reply = await self.stub.Extract(pb.Frame(session_id=sid, layer=layer, jpeg=jpeg,
-                                                timestamp_ms=timestamp), timeout=3)
+        # A new session constructs a MediaPipe tracker on its first frame.
+        # Leave two seconds for network delivery before the app's 12s deadline.
+        try:
+            reply = await self.stub.Extract(pb.Frame(session_id=sid, layer=layer, jpeg=jpeg,
+                                                    timestamp_ms=timestamp), timeout=10)
+        except grpc.RpcError as exc:
+            if exc.code() == grpc.StatusCode.DEADLINE_EXCEEDED:
+                raise VisionFailure('vision_timeout',
+                    'Gesture processing on the PC took too long. Retrying the next frame.') from None
+            if exc.code() == grpc.StatusCode.INVALID_ARGUMENT:
+                raise VisionFailure('vision_frame',
+                    'The PC could not process this camera frame. Retrying the next frame.') from None
+            raise VisionFailure('vision_unavailable',
+                'Gesture tracking on the PC is unavailable. Check its terminal; retrying the next frame.') from None
         return json.loads(reply.json)
 
     async def health(self):
